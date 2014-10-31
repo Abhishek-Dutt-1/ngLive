@@ -5,21 +5,22 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('ngLiveApp'));
 
-  var MainCtrl,
+
+  var UserController,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    UserController = $controller('UserController', {
       $scope: scope
     });
   }));
 
   it('should have no items to start', function () {
-    expect(scope.todos.length).toBe(0);
+    expect(scope.text).toBe('xx');
   });
-  
+  /*
 	it('should add items to the list', function () {
 		scope.todo = 'Test 1';
 		scope.addTodo();
@@ -32,4 +33,5 @@ describe('Controller: MainCtrl', function () {
 		scope.removeTodo(0);
 		expect(scope.todos.length).toBe(0);
 	});
+	*/
 });

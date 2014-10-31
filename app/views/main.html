@@ -1,24 +1,37 @@
 <div class="container">
-    <h2>My Todos</h2>
 
-    <form role="form" ng-submit="addTodo()">
-        <div class="row">
-            <div class="input-group">
-                <input type="text" class="form-control" ng-model="todo" placeholder="What needs to be done?">
-                <span class="input-group-btn">
-                    <input type="submit" class="btn btn-primary" value="Add">
-                </span>
-            </div>
-        </div>
-    </form>
-	<p></p>
-	
-	<div ui-sortable ng-model="todos">
-		<p class="input-group" ng-repeat="todo in todos" style="padding:5px 10px; cursor: move;">
-			<input type="text" ng-model="todo" class="form-control">
-			<span class="input-group-btn">
-				<button class="btn btn-danger" ng-click="removeTodo($index)" aria-label="Remove">X</button>
-			</span>
-		</p>
+	<div>
+        <h2>Fetch All/Fetch One</h2>
+        <div data-ng-repeat="user in userList">{{user}} <a href="#" data-ng-click="deleteUser(user.id)">x</a></div>
 	</div>
+    <div>
+        <h2>Create One</h2>
+        <form>
+            <label for="email">Email</label>
+            <input type="email" id="email" data-ng-model="newUser.email">
+            <label for="password">Password</label>
+            <input type="password" id="password" data-ng-model="newUser.password">
+            <button type="submit" data-ng-click="createUser(newUser)">submit</button>
+        </form>
+    </div>
+    <div>
+        <h2>Fetch One</h2>
+        <form>
+            <input type="number" data-ng-model="user.id">
+            <button type="submit" data-ng-click="fetchOne(user.id)">Get</button>
+        </form>
+    </div>
+    <div>
+        <h2>Update By Id</h2>
+        <form>
+            <label for="id">Id</label>
+            <input type="number" id="id" data-ng-model="updatedUser.id">
+            <label for="updateEmail">Email</label>
+            <input type="email" id="updateEmail" data-ng-model="updatedUser.email">
+            <label for="password">Password</label>
+            <input type="password" id="updatePassword" data-ng-model="updatedUser.password">
+            <button type="submit" data-ng-click="updateUser(updatedUser)">submit</button>
+        </form>
+    </div>
+
 </div>
