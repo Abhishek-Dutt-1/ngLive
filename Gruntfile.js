@@ -33,14 +33,14 @@ less: {
 		options: {
 			paths: ['<%= yeoman.app %>/styles']
 		},
-		files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.less'}
+		files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.{less,css}'}
 	},
 	production: {
 		options: {
 			paths: ['<%= yeoman.app %>/styles'],
 			cleancss: true
 		},
-	files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.less'}
+	files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.{less,css}'}
 	}
 },
 
