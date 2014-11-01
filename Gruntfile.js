@@ -27,6 +27,24 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: appConfig,
 
+	
+less: {
+	development: {
+		options: {
+			paths: ['<%= yeoman.app %>/styles']
+		},
+		files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.less'}
+	},
+	production: {
+		options: {
+			paths: ['<%= yeoman.app %>/styles'],
+			cleancss: true
+		},
+	files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.less'}
+	}
+},
+
+	
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
@@ -44,10 +62,17 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
-      compass: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
-      },
+	  
+//      compass: {
+//        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+//        tasks: ['compass:server', 'autoprefixer']
+//      },
+	  
+styles: {
+	files: ['<%= yeoman.app %>/styles/{,*/}*.css', '<%= yeoman.app %>/styles/{,*/}*.less'],
+	tasks: ['newer:copy:styles', 'less', 'autoprefixer']
+},
+
       gruntfile: {
         files: ['Gruntfile.js']
       },
@@ -169,7 +194,7 @@ module.exports = function (grunt) {
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         ignorePath: /(\.\.\/){1,2}bower_components\//
-      }
+      },
     },
 
     // Compiles Sass to CSS and generates necessary files if requested
@@ -366,13 +391,13 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'compass:server'
+//        'compass:server'
       ],
       test: [
-        'compass'
+//        'compass'
       ],
       dist: [
-        'compass:dist',
+//        'compass:dist',
         'imagemin',
         'svgmin'
       ]
@@ -395,6 +420,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+'less',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
@@ -418,6 +444,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+'less',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

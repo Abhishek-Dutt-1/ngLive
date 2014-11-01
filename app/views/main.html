@@ -1,37 +1,50 @@
-<div class="container">
+<div class="">
 
-	<div>
-        <h2>Fetch All/Fetch One</h2>
-        <div data-ng-repeat="user in userList">{{user}} <a href="#" data-ng-click="deleteUser(user.id)">x</a></div>
-	</div>
-    <div>
-        <h2>Create One</h2>
-        <form>
-            <label for="email">Email</label>
-            <input type="email" id="email" data-ng-model="newUser.email">
-            <label for="password">Password</label>
-            <input type="password" id="password" data-ng-model="newUser.password">
-            <button type="submit" data-ng-click="createUser(newUser)">submit</button>
-        </form>
-    </div>
-    <div>
-        <h2>Fetch One</h2>
-        <form>
-            <input type="number" data-ng-model="user.id">
-            <button type="submit" data-ng-click="fetchOne(user.id)">Get</button>
-        </form>
-    </div>
-    <div>
-        <h2>Update By Id</h2>
-        <form>
-            <label for="id">Id</label>
-            <input type="number" id="id" data-ng-model="updatedUser.id">
-            <label for="updateEmail">Email</label>
-            <input type="email" id="updateEmail" data-ng-model="updatedUser.email">
-            <label for="password">Password</label>
-            <input type="password" id="updatePassword" data-ng-model="updatedUser.password">
-            <button type="submit" data-ng-click="updateUser(updatedUser)">submit</button>
-        </form>
-    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Fetch All/Fetch One</h2>
+            <table>
+                <tr data-ng-repeat="user in userList">
+                    <td>{{user.id}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.userroles}}</td>
+                    <td>{{user.articles}}</td>
+                    <td>{{user.comments}}</td>
+                    <td>{{user.createdAt}}</td>
+                    <td>{{user.updatedAt}}</td>
+                    <td><a href="#" data-ng-click="deleteUser(user.id)">x</a></td>
+                </tr>
 
+            </table>
+        </div>
+        <div>
+            <h2>Create One</h2>
+            <form>
+                <label for="email">Email</label>
+                <input type="email" id="email" data-ng-model="newUser.email">
+                <label for="password">Password</label>
+                <input type="password" id="password" data-ng-model="newUser.password">
+                <button type="submit" data-ng-click="createUser(newUser)">submit</button>
+            </form>
+        </div>
+        <div>
+            <h2>Fetch One</h2>
+            <form>
+                <input type="number" data-ng-model="user.id">
+                <button type="submit" data-ng-click="fetchOne(user.id)">Get</button>
+            </form>
+        </div>
+        <div>
+            <h2>Update By Id</h2>
+            <form>
+                <label for="id">Id</label>
+                <input type="number" id="id" data-ng-model="updatedUser.id">
+                <label for="updateEmail">Email</label>
+                <input type="email" id="updateEmail" data-ng-model="updatedUser.email">
+                <label for="password">Password</label>
+                <input type="password" id="updatePassword" data-ng-model="updatedUser.password">
+                <button type="submit" data-ng-click="updateUser(updatedUser)">submit</button>
+            </form>
+        </div>
+    </div>
 </div>
