@@ -33,14 +33,14 @@ less: {
 		options: {
 			paths: ['<%= yeoman.app %>/styles']
 		},
-		files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.{less,css}'}
+		files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/less/style.{less,css}'}
 	},
 	production: {
 		options: {
 			paths: ['<%= yeoman.app %>/styles'],
 			cleancss: true
 		},
-	files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/{,*/}*.{less,css}'}
+	files: {'<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/less/style.{less,css}'}
 	}
 },
 
@@ -69,8 +69,9 @@ less: {
 //      },
 	  
 styles: {
-	files: ['<%= yeoman.app %>/styles/{,*/}*.css', '<%= yeoman.app %>/styles/{,*/}*.less'],
-	tasks: ['newer:copy:styles', 'less', 'autoprefixer']
+	files: ['<%= yeoman.app %>/styles/css/{,*/}*.css', '<%= yeoman.app %>/styles/less/{,*/}*.less'],
+//	tasks: ['newer:copy:styles', 'less', 'autoprefixer']
+	tasks: ['less', 'autoprefixer']
 },
 
       gruntfile: {
