@@ -8,7 +8,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap_NOT_USED.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -22,6 +22,7 @@
 
     <!-- Add your site or application content here -->
     <div class="container-fluid">
+<!--
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
@@ -30,12 +31,18 @@
         </ul>
         <h3 class="text-muted">ngLive</h3>
       </div>
+-->
 
+<!--
       <div data-ng-include="'views/main.html'" data-ng-controller="UserController"></div>
+-->
+      <div ng-view></div>
 
+<!--
       <div class="footer">
         <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
       </div>
+-->
     </div>
 
 
@@ -61,9 +68,6 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
-    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -75,6 +79,12 @@
         <script src="components/user/User.js"></script>
         <script src="components/user/UserController.js"></script>
         <script src="components/user/UserService.js"></script>
+        <script src="components/userrole/Userrole.js"></script>
+        <script src="components/userrole/UserroleController.js"></script>
+        <script src="components/userrole/UserroleService.js"></script>
+        <script src="components/permission/Permission.js"></script>
+        <script src="components/permission/PermissionController.js"></script>
+        <script src="components/permission/PermissionService.js"></script>
         <!-- endbuild -->
 </body>
 </html>

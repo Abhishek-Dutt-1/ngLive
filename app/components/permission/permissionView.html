@@ -12,21 +12,14 @@
     <div class="row">
         <div class="col-xs-12">
             <h3>Fetch All/Fetch One</h3>
-            <div class="row" data-ng-repeat="user in userList">
-                <div class="col-xs-1 col-md-1">{{user.id}}</div>
-                <div class="col-md-3">{{user.email}}</div>
-                <div class="col-md-1">
-                    <span data-ng-repeat="userrole in user.userroles">
-                        {{userrole.name}} 
-                        <a href="#" data-ng-click="removeUserroleFromUser(userrole.id, user.id)">x</a>, 
-                    </span>
-                    <select data-ng-model="userroleSelectModelList[$index]" data-ng-change="addUserroleToUser(userroleSelectModelList[$index].id, user.id)" data-ng-options="role as role.name for role in userroleList"></select>
-                </div>
+            <div class="row" data-ng-repeat="permission in permissionList">
+                <div class="col-xs-1 col-md-1">{{permission.id}}</div>
+                <div class="col-md-3">{{permission}}</div>
                 <div class="col-md-1">{{user.articles}}</div>
                 <div class="col-md-1">{{user.comments}}</div>
                 <div class="col-md-2">{{user.createdAt}}</div>
                 <div class="col-md-2">{{user.updatedAt}}</div>
-                <div class="col-md-1"><a href="#" data-ng-click="deleteUser(user.id)">x</a></td></div>
+                <div class="col-md-1"><a href="" data-ng-click="deletePermission(permission.id)">x</a></div>
             </div>
         </div>
     </div>
@@ -37,23 +30,31 @@
 		    <form>
                 <div class="row">
                     <div class="col-xs-4">
-                        <label for="email">Email</label>
+                        <label for="group">Group</label>
                     </div>
                     <div class="col-xs-8">
-                        <input type="email" id="email" class="form-control" data-ng-model="newUser.email">
+                        <input type="text" id="group" class="form-control" data-ng-model="newPermission.group">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <label for="password">Password</label>
+                        <label for="permission">Permission</label>
                     </div>
                     <div class="col-xs-8">
-                        <input type="password" id="password" class="form-control" data-ng-model="newUser.password">
+                        <input type="text" id="permission" class="form-control" data-ng-model="newPermission.permission">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="description">Description</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" id="description" class="form-control" data-ng-model="newPermission.description">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-default" data-ng-click="createUser(newUser)">Create</button>
+                        <button type="submit" class="btn btn-default" data-ng-click="createPermission(newPermission)">Create</button>
                     </div>
                 </div>
 		    </form>
@@ -69,12 +70,12 @@
                         <label for="fetchId">Id</label>
                     </div>
                     <div class="col-xs-8">
-                        <input type="number" class="form-control" id="fetchId" data-ng-model="user.id">
+                        <input type="number" class="form-control" id="fetchId" data-ng-model="permission.id">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">	
-                        <button type="submit" class="btn btn-default" data-ng-click="fetchOne(user.id)">Fetch</button>
+                        <button type="submit" class="btn btn-default" data-ng-click="fetchOne(permission.id)">Fetch</button>
                     </div>
                 </div>
 		    </form>
@@ -90,28 +91,36 @@
                         <label for="id">Id</label>
                     </div>
                     <div class="col-xs-8">
-                        <input type="number" class="form-control" id="id" data-ng-model="updatedUser.id">
+                        <input type="number" class="form-control" id="id" data-ng-model="updatedPermission.id">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <label for="updateEmail">Email</label>
+                        <label for="updateGroup">Group</label>
                     </div>
                     <div class="col-xs-8">
-                        <input type="email" class="form-control" id="updateEmail" data-ng-model="updatedUser.email">
+                        <input type="text" class="form-control" id="updateGroup" data-ng-model="updatedPermission.group">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <label for="password">Password</label>
+                        <label for="updatePermission">Permission</label>
                     </div>
                     <div class="col-xs-8">
-                        <input type="password" class="form-control" id="updatePassword" data-ng-model="updatedUser.password">
+                        <input type="text" class="form-control" id="updatePermission" data-ng-model="updatedPermission.permission">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="updateDescription">Description</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="updateDescription" data-ng-model="updatedPermission.description">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <button type="submit" class="btn btn-default" data-ng-click="updateUser(updatedUser)">Update</button>
+                        <button type="submit" class="btn btn-default" data-ng-click="updatePermission(updatedPermission)">Update</button>
                     </div>
                 </div>
             </form>

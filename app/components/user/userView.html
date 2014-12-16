@@ -18,7 +18,7 @@
                 <div class="col-md-1">
                     <span data-ng-repeat="userrole in user.userroles">
                         {{userrole.name}} 
-                        <a href="#" data-ng-click="removeUserroleFromUser(userrole.id, user.id)">x</a>, 
+                        <a href="" data-ng-click="removeUserroleFromUser(userrole.id, user.id)">x</a>, 
                     </span>
                     <select data-ng-model="userroleSelectModelList[$index]" data-ng-change="addUserroleToUser(userroleSelectModelList[$index].id, user.id)" data-ng-options="role as role.name for role in userroleList"></select>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="col-md-1">{{user.comments}}</div>
                 <div class="col-md-2">{{user.createdAt}}</div>
                 <div class="col-md-2">{{user.updatedAt}}</div>
-                <div class="col-md-1"><a href="#" data-ng-click="deleteUser(user.id)">x</a></td></div>
+                <div class="col-md-1"><a href="#" data-ng-click="deleteUser(user.id)">x</a></div>
             </div>
         </div>
     </div>

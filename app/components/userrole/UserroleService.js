@@ -8,15 +8,11 @@
  * Service of the ngLiveApp
  */
 
-User.service('UserService', ['$resource', function($resource) {
+Userrole.service('UserroleService', ['$resource', function($resource) {
 
     this.init = function() {
-        return 'From UserService Init';
+        return 'From UserroleService Init';
     };
-
-    this.User = $resource('http://localhost:1337/user/:userId', null, {
-        'update': {method: 'POST'}
-    });
 
     this.Userrole = $resource('http://localhost:1337/userrole/:userroleId', null, {
         'update': {method: 'POST'}
