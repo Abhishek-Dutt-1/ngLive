@@ -8,12 +8,18 @@
  *
  * Main module of the application.
  */
-//var ngLiveApp = angular.module('ngLiveApp', ['User']);
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'User', 'Userrole', 'Permission']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'Frontpage', 'Mainmenu', 'User', 'Userrole', 'Permission']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 
    $routeProvider.
+       when('/', {
+           templateUrl: 'components/frontpage/frontpageView.html',
+           controller: 'FrontpageController'
+       }).
+       when('/login', {
+           templateUrl: 'components/mainmenu/loginView.html',
+       }).
        when('/admin/user', {
            templateUrl: 'components/user/userView.html',
            controller: 'UserController'
