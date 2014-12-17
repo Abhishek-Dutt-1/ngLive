@@ -8,7 +8,7 @@
  * Controller of the ngLiveApp
  */
 
-User.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
+User.controller('UserController', ['$scope', 'ApiService', function($scope, ApiService) {
 
 // Config
     $scope.currentUser = {};
@@ -21,11 +21,11 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
     $scope.fetchAll = function() {
         /*
          *  Dont use this form due to flickering !!!
-        $scope.userList = UserService.User.query(function(){}, 
+        $scope.userList = ApiService.User.query(function(){}, 
             function(err){console.log(err);
         });
         */
-        UserService.User.query(function(allUsers){
+        ApiService.User.query(function(allUsers){
                 $scope.userList = allUsers; 
             }, 
             function(err){console.log(err);
@@ -34,7 +34,7 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
     };
 
     $scope.deleteUser = function(userId) {
-        UserService.User.delete({userId: userId}, function() {
+        ApiService.User.delete({userId: userId}, function() {
             $scope.fetchAll();
         }, function(err) {
             console.log(err);
@@ -43,7 +43,7 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
 
     $scope.createUser = function(user) {
         if(user) {
-            UserService.User.save(user, function() {
+            ApiService.User.save(user, function() {
                 $scope.fetchAll();
             }, function(err) {
                 console.log(err);
@@ -55,7 +55,7 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
 
     $scope.fetchOne = function(userId) {
         if($.isNumeric(userId)) {
-            UserService.User.get({userId: userId}, function(user) {
+            ApiService.User.get({userId: userId}, function(user) {
                 $scope.userList = [user];
             }, function(err) {
                 console.log(err);
@@ -67,7 +67,7 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
 
     $scope.updateUser = function(user) {
         if(user) {
-            UserService.User.update({userId: user.id}, user, function() {
+            ApiService.User.update({userId: user.id}, user, function() {
                 $scope.fetchAll();
             }, function(err) {
                 console.log(err);
@@ -80,7 +80,7 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
 
     /* Userrole CRUD */
     $scope.fetchAllUserroles = function() {
-        UserService.Userrole.query(function(allUserroles){
+        ApiService.Userrole.query(function(allUserroles){
             $scope.userroleList = allUserroles;
             }, function(err) {
             console.log(err);
@@ -104,7 +104,7 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
         });
         //console.log(rolesIds);
         // Update on the server
-        UserService.User.update({userId: userid}, {userroles: rolesIds}, function() {
+        ApiService.User.update({userId: userid}, {userroles: rolesIds}, function() {
             $scope.fetchAll();
         }, function(err) {
             console.log(err);
@@ -117,14 +117,14 @@ User.controller('UserController', ['$scope', 'UserService', function($scope, Use
         user = user[0];
         // Check if the user already has the role
         if( !(user.userroles.some(function(role) { return role.id == userroleid; })) ) {
-            // Get the new userrole obj // <-- this is alternate since an 
+            // Get the new userrole obj // <-- this is alternate (compared to removeing above) since an 
             // integer can be passed directly instead of object (with .id prop) and 
             // sails will assume it to be the id
             var newRoleArray = $scope.userroleList.filter(function(role) {return role.id == userroleid; });
             // Add to users existing roles
             user.userroles.push(newRoleArray[0]);
             // Update on the server
-            UserService.User.update({userId: userid}, {userroles: user.userroles }, function() {
+            ApiService.User.update({userId: userid}, {userroles: user.userroles }, function() {
                 $scope.fetchAll();
             }, function(err) {
                 console.log(err);

@@ -8,7 +8,7 @@
  * Controller of the ngLiveApp
  */
 
-Userrole.controller('UserroleController', ['$scope', 'UserroleService', function($scope, UserroleService) {
+Userrole.controller('UserroleController', ['$scope', 'ApiService', function($scope, ApiService) {
 
 // Config
     $scope.currentUser = {};
@@ -22,7 +22,7 @@ Userrole.controller('UserroleController', ['$scope', 'UserroleService', function
             function(err){console.log(err);
         });
         */
-        UserroleService.Userrole.query(function(allUserroles){
+        ApiService.Userrole.query(function(allUserroles){
                 $scope.userroleList = allUserroles; 
             }, 
             function(err){console.log(err);
@@ -31,7 +31,7 @@ Userrole.controller('UserroleController', ['$scope', 'UserroleService', function
     };
 
     $scope.deleteUserrole = function(userroleId) {
-        UserroleService.Userrole.delete({userroleId: userroleId}, function() {
+        ApiService.Userrole.delete({userroleId: userroleId}, function() {
             $scope.fetchAll();
         }, function(err) {
             console.log(err);
@@ -40,7 +40,7 @@ Userrole.controller('UserroleController', ['$scope', 'UserroleService', function
 
     $scope.createUserrole = function(userrole) {
         if(userrole) {
-            UserroleService.Userrole.save(userrole, function() {
+            ApiService.Userrole.save(userrole, function() {
                 $scope.fetchAll();
             }, function(err) {
                 console.log(err);
@@ -52,7 +52,7 @@ Userrole.controller('UserroleController', ['$scope', 'UserroleService', function
 
     $scope.fetchOne = function(userroleId) {
         if($.isNumeric(userroleId)) {
-            UserroleService.Userrole.get({userroleId: userroleId}, function(userrole) {
+            ApiService.Userrole.get({userroleId: userroleId}, function(userrole) {
                 $scope.userroleList = [userrole];
             }, function(err) {
                 console.log(err);
@@ -64,7 +64,7 @@ Userrole.controller('UserroleController', ['$scope', 'UserroleService', function
 
     $scope.updateUserrole = function(userrole) {
         if(userrole) {
-            UserroleService.Userrole.update({userroleId: userrole.id}, userrole, function() {
+            ApiService.Userrole.update({userroleId: userrole.id}, userrole, function() {
                 $scope.fetchAll();
             }, function(err) {
                 console.log(err);

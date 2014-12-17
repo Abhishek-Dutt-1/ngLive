@@ -28,5 +28,5 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
        }).
        otherwise({
            redirectTo: '/'
-           });
+       });
 }]);

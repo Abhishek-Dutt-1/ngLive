@@ -12,15 +12,54 @@
     <div class="row">
         <div class="col-xs-12">
             <h3>Fetch All/Fetch One</h3>
-            <div class="row" data-ng-repeat="permission in permissionList">
+            <div class="row">
+                <div class="col-md-1">Resource</div>
+                <div class="col-md-1">Permission</div>
+                <div class="col-md-1">Description</div>
+                <div class="col-md-1 hidden">Userroles</div>
+                <div class="col-md-1" data-ng-repeat="userrole in userroleList">{{userrole.name}}</div>
+                <div class="col-md-1">Id</div>
+                <div class="col-md-1">Delete</div>
+            </div>
+            <div data-ng-repeat="(key, value) in permissionList | groupBy: 'group'">
+                <div class="row hidden"><div class="col-md-2">Resource: {{key}}</div></div>
+                <div class="row" data-ng-repeat="permission in value">
+                    <div class="col-md-1" ng-show="$first">{{permission.group}}</div>
+                    <div class="col-md-1" ng-show="!$first"></div>
+                    <div class="col-md-1">{{permission.permission}}</div>
+                    <div class="col-md-1">{{permission.description}}</div>
+                    <div class="col-md-1 hidden">
+                        <div data-ng-repeat="allowedUserrole in permission.userroles">
+                            {{allowedUserrole.name}}
+                        </div>
+                    </div>
+                    <div class="col-md-1" data-ng-repeat="userrole in userroleList">
+                        <input type="checkbox" 
+                                data-ng-model="permissionCheckboxes[permission.id + '_' + userrole.id]" 
+                                data-ng-change="togglePermission(permission.id, userrole.id, permissionCheckboxes[permission.id + '_' + userrole.id])" >
+                    </div>
+                    <div class="col-md-1">{{permission.id}}</div>
+                    <div class="col-md-1"><a href="" data-ng-click="deletePermission(permission.id)">x</a></div>
+                </div>
+            </div>
+
+            <!--
+            <div class="row" data-ng-repeat="permission in permissionList | groupBy: group">
                 <div class="col-xs-1 col-md-1">{{permission.id}}</div>
-                <div class="col-md-3">{{permission}}</div>
-                <div class="col-md-1">{{user.articles}}</div>
-                <div class="col-md-1">{{user.comments}}</div>
-                <div class="col-md-2">{{user.createdAt}}</div>
-                <div class="col-md-2">{{user.updatedAt}}</div>
+                <div class="col-md-1">{{permission.group}}</div>
+                <div class="col-md-1">{{permission.permission}}</div>
+                <div class="col-md-1">{{permission.description}}</div>
+                <div class="col-md-1">
+                    <div data-ng-repeat="allowedUserrole in permission.userroles">
+                        {{allowedUserrole.name}}
+                    </div>
+                </div>
+                <div class="col-md-1" data-ng-repeat="userrole in userroleList">
+                    <input type="checkbox" data-ng-model="permissionCheckboxes[permission.id + '_' + userrole.id]" data-ng-change="togglePermission(permission.id, userrole.id, permissionCheckboxes[permission.id + '_' + userrole.id])" >
+                </div>
                 <div class="col-md-1"><a href="" data-ng-click="deletePermission(permission.id)">x</a></div>
             </div>
+            -->
         </div>
     </div>
 
