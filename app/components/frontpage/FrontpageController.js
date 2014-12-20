@@ -8,9 +8,12 @@
  * Controller of the ngLiveApp
  */
 
-Frontpage.controller('FrontpageController', ['$scope', 'ApiService', function($scope, ApiService) {
+Frontpage.controller('FrontpageController', ['$scope', 'ApiService', 'NotificationService', function($scope, ApiService, NotificationService) {
 
 // Config
+    $scope.temp = function() {
+        NotificationService.notify('info', 'FRONTPAGE Message');
+    };
 // Run
 
 }]);

@@ -1,3 +1,3 @@
 'use strict';
 
-var Frontpage = angular.module('Frontpage', ['ngResource']);
+var Frontpage = angular.module('Frontpage', []);

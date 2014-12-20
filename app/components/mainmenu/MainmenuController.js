@@ -8,7 +8,7 @@
  * Controller of the ngLiveApp
  */
 
-Mainmenu.controller('MainmenuController', ['$scope', function($scope) {
+Mainmenu.controller('MainmenuController', ['$scope', '$location', function($scope, $location) {
 // Config
 // Run
 }]);

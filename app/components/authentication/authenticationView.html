@@ -1,0 +1,76 @@
+<div class="">
+    <div data-mainmenu-partial></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Register | Login</h3>
+        </div>
+    </div>
+    <div class="row">
+        <form name="registerForm" role="form" class="form-horizontal" novalidate>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="registerFirstName">First Name</label>
+                <div class="col-md-10">
+                    <input data-ng-model="register.firstName" type="text" class="form-control" name="registerFirstName" id="registerFirstName" required>
+                    <span data-ng-show="registerForm.registerFirstName.$dirty && registerForm.registerFirstName.$error.required">
+                        <p class="text-danger">First name is required.</p>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="registerLastName">Last Name</label>
+                <div class="col-md-10">
+                    <input data-ng-model="register.lastName" type="text" class="form-control" name="registerLastName" id="registerLastName" required>
+                     <span data-ng-show="registerForm.registerLastName.$dirty && registerForm.registerLastName.$error.required">
+                        <p class="text-danger">Last name is required.</p>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="registerEmail">Email</label>
+                <div class="col-md-10">
+                    <input data-ng-model="register.email" type="email" class="form-control" name="registerEmail" id="registerEmail" required>
+                    <span data-ng-show="registerForm.registerEmail.$dirty && registerForm.registerEmail.$error.email">
+                        <p class="text-danger">Email invalid</p>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="registerPassword">Password</label>
+                <div class="col-md-10">
+                    <input data-ng-model="register.password" type="password" class="form-control" name="registerPassword" id="registerPassword" required>
+                    <span data-ng-show="registerForm.registerPassword.$dirty && registerForm.registerPassword.$error.required">
+                        <p class="text-danger">Password is required.</p>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="registerPassword">Confirm Password</label>
+                <div class="col-md-10">
+                    <input data-ng-model="register.password" type="password" class="form-control" name="registerConfirmPassword" id="registerConfirmPassword" match="registerPassword" required>
+                    <span data-ng-show="registerForm.verification.$dirty && registerForm.verification.$error.required">
+                        <p class="text-danger">Password is required.</p>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="registerCountry">Country</label>
+                <div class="col-md-10">
+                    <input data-ng-model="register.country" type="text" class="form-control" name="registerCountry" id="registerCountry" required>
+                    <span data-ng-show="registerForm.registerCountry.$dirty && registerForm.registerCountry.$error.required">
+                        <p class="text-danger">Country is required.</p>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button data-ng-click="registerNewUser(register)" type="submit" class="btn btn-default">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div data-mainmenu-footer-partial></div>
+    <notification></notification>
+
+</div>

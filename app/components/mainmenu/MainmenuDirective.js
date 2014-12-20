@@ -5,8 +5,12 @@ Mainmenu.directive('mainmenuPartial', function() {
         scope: {},
         restrict: 'AE',
         templateUrl: 'components/mainmenu/mainmenuPartial.html',
-        //controller: 'MainmenuController',
-        //controllerAs: 'ctrl'
+//        controller: 'MainmenuController',
+        controller: function($scope, $element, $attrs, $location) {
+           $scope.isActive = function(route) {
+                return route === $location.path(); 
+            };
+        },
     };
 });
 
