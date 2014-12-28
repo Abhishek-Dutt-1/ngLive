@@ -17,9 +17,14 @@ Notification.directive('notification', ['NotificationService', function(Notifica
             $scope.messageQueue = NotificationService.messageQueue;
         },
 
-        template: '<div ng-repeat="(id, message) in messageQueue">' +
-                    '<div class="alert alert-{{message.type}}">{{id}} + {{$index}} + {{message}}' +
-                        '<button type="button" class="close" ng-click="close(id)">&times;</button>' + 
+        //template: '<div ng-repeat="(id, message) in messageQueue">' +
+        //            '<div class="alert alert-{{message.type}}">{{id}} + {{$index}} + {{message}}' +
+        //                '<button type="button" class="close" ng-click="close(id)">&times;</button>' + 
+        //            '</div></div>'
+        template: '<div ng-repeat="message in messageQueue">' +
+                    '<div class="alert alert-{{message.type}}">{{message}}' +
+                        '<button type="button" class="close" ng-click="close(message.id)">&times;</button>' + 
                     '</div></div>'
+
     };
  }]);

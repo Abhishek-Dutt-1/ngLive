@@ -4,17 +4,43 @@ Notification.service('NotificationService', [ function() {
 
     this.messageQueue = [];
 
-    this.init = function() {
-        console.log("From Service");
+    this.createNotification = function(message) {
+        // get a new unused message Id
+        var newId = this.messageQueue.reduce( function(pv, cv, ind, arr) {
+            return pv >= cv.id ? pv : cv.id;
+        }, -1);
+        newId++;
+
+        message.id = newId;
+        this.messageQueue.push( message );
+        return message.id;
     };
 
-    this.notify = function(type, message) {
-        this.messageQueue.push( {type:type, message: message } );
-        console.log(this.messageQueue);
+    this.readNotification = function(id) {
+        var message = this.messageQueue.filter( function(el) { return el.id == id; } );
+        if(message.length <= 1) {
+            message = message[0];
+        } else {
+            throw new Error('Duplicate Message Ids Found');
+        }
+        return message;
     };
 
-    this.deleteMessage = function(id) {
-        this.messageQueue.splice(id,1);
+    this.updateNotification = function(id, message) {
+        var i = 0;
+        for( i = this.messageQueue.length-1; i >= 0; i--) {
+            if (this.messageQueue[i].id == id) {
+                message.id = id;
+                this.messageQueue[i] = message;
+            }
+        };
     };
-     
+
+    this.deleteNotification = function(id) {
+        var i = 0;
+        for( i = this.messageQueue.length-1; i >= 0; i--) {
+            if (this.messageQueue[i].id == id) this.messageQueue.splice(i,1);
+        };
+    };
+
 }]);

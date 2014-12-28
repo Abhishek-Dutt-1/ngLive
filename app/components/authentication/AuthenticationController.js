@@ -15,15 +15,16 @@ Authentication.controller('AuthenticationController', ['$scope', 'ApiService', '
 
         if($scope.registerForm.$valid) {
             ApiService.User.save(newUser, function(msg) {
-                NotificationService.notify('success', 'Success Message');
+                NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
                 console.log(msg);
             }, function(err) {
-                NotificationService.notify('error', 'Error Message');
+                NotificationService.createNotification( {type: 'error', text: 'Error Message'} );
                 console.log(err);
             });
         } else {
-            NotificationService.notify('warning', 'Something wrong with the form');
+            var id = NotificationService.createNotification( {type: 'warning', text: 'Something wrong with the form'} );
         }
+
     }
 // Run
 
