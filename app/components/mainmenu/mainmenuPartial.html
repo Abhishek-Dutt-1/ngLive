@@ -1,8 +1,8 @@
 <div class="">
     <div class="header">
-    Current User: {{currentUser}}
-    <button data-ng-click="loadUser()">Load User</button>
         <ul class="nav nav-pills pull-right">
+			<li><a>{{currentUser}}</a></li>
+		    <li><a>Welcome:{{user.firstName}}+{{user.lastName}}</a></li>
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">Home</a></li>
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">About</a></li>
             <li data-ng-class="{active: isActive('/login')}"><a data-ng-href="#/login">Log In | Register</a></li>

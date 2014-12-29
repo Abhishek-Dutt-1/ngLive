@@ -13,6 +13,7 @@ Authentication.controller('AuthenticationController', ['$scope', 'ApiService', '
 // Config
     $scope.registerFormProcessing = false;
     $scope.loginFormProcessing = false;
+	$scope.currentUser = {};
 
     $scope.registerNewUser = function(newUser) {
 

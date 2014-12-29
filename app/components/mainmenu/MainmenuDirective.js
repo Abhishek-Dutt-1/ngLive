@@ -1,28 +1,24 @@
 'use strict';
 
-Mainmenu.directive('mainmenuPartial', [ 'AuthenticationService', function(AuthenticationService) {
+Mainmenu.directive('mainmenuPartial', ['AuthenticationService', function(AuthenticationService) {
     return {
         scope: {},
         restrict: 'AE',
         templateUrl: 'components/mainmenu/mainmenuPartial.html',
-//        controller: 'MainmenuController',
         controller: function($scope, $element, $attrs, $location) {
-
-            $scope.$watch(AuthenticationService.currentUserLoggedIn, loadUser);
-
-            function loadUser() {
-                $scope.currentUser = AuthenticationService.getCurrentUser();
-            };
-
-           $scope.isActive = function(route) {
-                return route === $location.path(); 
+			// Watch for Authentication
+			$scope.$watch(function(scope) { 
+					return AuthenticationService.getCurrentUser();
+				}, function(newVal, oldVal) {
+					$scope.currentUser = newVal;
+					console.log(oldVal);
+					console.log(newVal);
+			});
+			// Highlights current button in the menu based on current path
+			$scope.isActive = function(route) {
+                return route === $location.path();
             };
         },
-        /*
-        link: function($scope) {
-            $scope.currentUser = AuthenticationService.currentUser;
-        },
-        */
     };
 }]);
 
