@@ -21,6 +21,10 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
            templateUrl: 'components/authentication/authenticationView.html',
            controller: 'AuthenticationController'
        }).
+       when('/logout', {
+           templateUrl: 'components/authentication/authenticationView.html',
+           controller: 'AuthenticationController'
+       }).
        when('/admin/user', {
            templateUrl: 'components/user/userView.html',
            controller: 'UserController'

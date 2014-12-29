@@ -1,14 +1,19 @@
 'use strict';
 
-Authentication.service('AuthenticationService', [ function() {
+Authentication.service('AuthenticationService', ['ApiService', function(ApiService) {
 
     this.currentUserLoggedIn = false;
-	var ANONYMOUS_USER = {firstName: 'Anon', lastName: 'Anon'};
+	var ANONYMOUS_USER = { firstName: 'Guest User', lastName: '', userroles: [{name: 'Anonymous'}] };
     this.currentUser = ANONYMOUS_USER;
  
     this.logInUser = function(user) {
+    /* untill userroles are not returned
         this.currentUserLoggedIn = true;
         this.currentUser = user;
+        console.log(user);
+    */
+    // use this temp soln
+        this.getUserroleByUserId(user.id);
     };
 
     this.logOutUser = function() {
@@ -22,12 +27,17 @@ Authentication.service('AuthenticationService', [ function() {
 
     this.getCurrentUser = function() {
 		return this.currentUser;
-		/*
-        if (this.isCurrentUserLoggedIn() === true) {
-            return this.currentUser;
-        }
-        else return false;
-		*/
+    };
+
+    // Until user returned by login does not contains userroles
+    // user this temp solution to attach them later
+    this.getUserroleByUserId = function(user_id) {
+        var _this = this;
+        ApiService.User.get({userId: user_id}, function(userObj) {
+            console.log(userObj);
+            _this.currentUserLoggedIn = true;
+            _this.currentUser = userObj;
+        });
     };
 
 }]);

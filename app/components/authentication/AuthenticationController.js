@@ -8,15 +8,13 @@
  * Controller of the ngLiveApp
  */
 
-Authentication.controller('AuthenticationController', ['$scope', 'ApiService', 'NotificationService', 'AuthenticationService', function($scope, ApiService, NotificationService, AuthenticationService) {
+Authentication.controller('AuthenticationController', ['$scope', '$location', 'ApiService', 'NotificationService', 'AuthenticationService', function($scope, $location, ApiService, NotificationService, AuthenticationService) {
 
 // Config
     $scope.registerFormProcessing = false;
     $scope.loginFormProcessing = false;
-	$scope.currentUser = {};
 
     $scope.registerNewUser = function(newUser) {
-
         $scope.registerFormProcessing = true;
         if($scope.registerForm.$valid) {
             ApiService.User.save(newUser, function(msg) {
@@ -29,34 +27,48 @@ Authentication.controller('AuthenticationController', ['$scope', 'ApiService', '
                 console.log(err);
             });
         } else {
-            var id = NotificationService.createNotification( {type: 'warning', text: 'Something wrong with the form'} );
+            NotificationService.createNotification( {type: 'warning', text: 'Something wrong with the form'} );
             $scope.registerFormProcessing = false;
         }
 
     };
 
     $scope.loginUser = function(newUser) {
-
         $scope.loginFormProcessing = true;
         if($scope.loginForm.$valid) {
             ApiService.Auth.login(newUser, function(msg) {
                 NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
                 $scope.loginFormProcessing = false;
-                console.log(msg);
                 AuthenticationService.logInUser(msg.user);
-                $scope.currentUser = msg.user;
+                $location.path('/');
             }, function(err) {
                 NotificationService.createNotification( {type: 'danger', text: 'Error Message'} );
                 $scope.loginFormProcessing = false;
                 console.log(err);
             });
         } else {
-            var id = NotificationService.createNotification( {type: 'warning', text: 'Something wrong with the form'} );
+            NotificationService.createNotification( {type: 'warning', text: 'Something wrong with the form'} );
             $scope.loginFormProcessing = false;
         }
     };
 
-// Run
+    $scope.logOutUser = function() {
+        AuthenticationService.logOutUser();
+        NotificationService.createNotification( {type: 'success', text: 'Logout Success Message'} );
+    };
 
+// Run
+    if(AuthenticationService.isCurrentUserLoggedIn()) {
+        // If user logged in
+        if($location.path() == '/login') {
+            $location.path('/').replace();
+        }
+        if($location.path() == '/logout') {
+            $scope.logOutUser();
+            $location.path('/').replace();
+        }
+    } else {
+
+    }
 
 }]);

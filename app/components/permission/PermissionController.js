@@ -24,11 +24,11 @@ Permission.controller('PermissionController', ['$scope', '$q', 'ApiService', fun
         });
         */
         // return the promise
-        return ApiService.Permission.query(function(allPermissions){
+        return ApiService.Permission.query(function(allPermissions) {
                 $scope.permissionList = allPermissions; 
-            }, 
-            function(err){console.log(err);
-        });
+            }, function(err){
+                console.log(err);
+            });
     };
 
     $scope.deletePermission = function(permissionId) {
