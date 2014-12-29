@@ -1,5 +1,7 @@
 <div class="">
     <div class="header">
+    Current User: {{currentUser}}
+    <button data-ng-click="loadUser()">Load User</button>
         <ul class="nav nav-pills pull-right">
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">Home</a></li>
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">About</a></li>

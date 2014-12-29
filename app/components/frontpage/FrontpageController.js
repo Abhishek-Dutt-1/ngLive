@@ -12,7 +12,7 @@ Frontpage.controller('FrontpageController', ['$scope', 'ApiService', 'Notificati
 
 // Config
     $scope.temp = function() {
-        NotificationService.notify('info', 'FRONTPAGE Message');
+        NotificationService.createNotification( {type: 'info', text: 'FRONTPAGE Message'} );
     };
 // Run
 

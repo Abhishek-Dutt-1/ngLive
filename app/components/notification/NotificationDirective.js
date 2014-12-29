@@ -9,7 +9,7 @@ Notification.directive('notification', ['NotificationService', function(Notifica
 
         controller: function($scope) {
             $scope.close = function(id) {
-                NotificationService.deleteMessage(id);
+                NotificationService.deleteNotification(id);
             }
         },
 

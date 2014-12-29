@@ -26,5 +26,9 @@ ngLiveApp.service('ApiService', ['$resource', function($resource) {
         'update': {method: 'POST'}
     });
 
+    this.Auth = $resource('http://localhost:1337/', null, {
+        'login': {method: 'POST', url: 'http://localhost:1337/login'}
+    });
+
 
 }]);
