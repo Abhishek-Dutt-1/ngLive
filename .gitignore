@@ -6,4 +6,4 @@ bower_components/
 *.swp
 *.*~
 **/.idea/*.*
-
+*.log
