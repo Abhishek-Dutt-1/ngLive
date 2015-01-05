@@ -17,7 +17,8 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
     $scope.registerNewUser = function(newUser) {
         $scope.registerFormProcessing = true;
         if($scope.registerForm.$valid) {
-            ApiService.User.save(newUser, function(msg) {
+//            ApiService.User.save(newUser, function(msg) {
+            ApiService.Auth.register(newUser, function(msg) {
                 NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
                 $scope.registerFormProcessing = false;
                 console.log(msg);
@@ -36,9 +37,11 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
     $scope.loginUser = function(newUser) {
         $scope.loginFormProcessing = true;
         if($scope.loginForm.$valid) {
+		console.log(newUser);
             ApiService.Auth.login(newUser, function(msg) {
                 NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
                 $scope.loginFormProcessing = false;
+		console.log(msg);
                 AuthenticationService.logInUser(msg.user);
                 $location.path('/');
             }, function(err) {
