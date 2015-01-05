@@ -15,6 +15,7 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
     $scope.loginFormProcessing = false;
 
     $scope.registerNewUser = function(newUser) {
+        console.log(newUser);
         $scope.registerFormProcessing = true;
         if($scope.registerForm.$valid) {
 //            ApiService.User.save(newUser, function(msg) {

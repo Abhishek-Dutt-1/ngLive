@@ -50,8 +50,8 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label" for="registerPassword">Confirm Password</label>
                     <div class="col-md-9">
-                        <input data-ng-model="register.confirmPassword" type="password" class="form-control" name="registerConfirmPassword" id="registerConfirmPassword" ui-validate="'$value==register.password'" ui-validate-watch=" 'register.password' " required>
-                        <span data-ng-show="registerForm.registerConfirmPassword.$dirty && registerForm.registerConfirmPassword.$error.validator">
+                        <input data-ng-model="register.passwordConfirmation" type="password" class="form-control" name="registerPasswordConfirmation" id="registerPasswordConfirmation" ui-validate="'$value==register.password'" ui-validate-watch=" 'register.password' " required>
+                        <span data-ng-show="registerForm.registerPasswordConfirmation.$dirty && registerForm.registerPasswordConfirmation.$error.validator">
                             <p class="text-danger">Password Confirmation is required.</p>
                         </span>
                     </div>
