@@ -3,9 +3,18 @@
 Authentication.service('AuthenticationService', ['ApiService', function(ApiService) {
 
     this.currentUserLoggedIn = false;
-	var ANONYMOUS_USER = { firstName: 'Guest User', lastName: '', userroles: [{name: 'Anonymous'}] };
+	var ANONYMOUS_USER = { firstname: 'Guest User', lastname: '', userroles: [{name: 'Anonymous'}] };
     this.currentUser = ANONYMOUS_USER;
  
+    // Init
+    (function(_this) {
+        ApiService.Auth.getDefaultUsers({}, function(defaultUser) {
+            //_this.currentUser = defaultUser.unregisteredUser;
+            ANONYMOUS_USER = defaultUser.unregisteredUser;
+            _this.logOutUser();
+        });
+    })(this);
+
     this.logInUser = function(user) {
     /* untill userroles are not returned
         this.currentUserLoggedIn = true;

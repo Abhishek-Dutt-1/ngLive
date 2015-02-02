@@ -1,7 +1,7 @@
 <div class="">
     <div class="header">
         <ul class="nav nav-pills pull-right">
-			<li><a>Welcome: {{currentUser.firstName}}</a></li>
+			<li><a>Welcome: {{currentUser.firstname}}</a></li>
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">Home</a></li>
 
             <li role="presentation" class="dropdown" data-ng-class="{active: isActive('/admin/user')||isActive('/admin/userrole')||isActive('/admin/permission') }" data-ng-show="showAdminButtons">

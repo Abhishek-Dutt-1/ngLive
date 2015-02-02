@@ -15,15 +15,11 @@ Mainmenu.directive('mainmenuPartial', ['AuthenticationService', 'PermissionServi
             }, function(newVal, oldVal) {
                 $scope.currentUser = newVal;
                // Check permission if user has permission to see admin buttons
-                PermissionService.isAllowed( $scope.currentUser, [{group: 'UI', permission: 'Show Admin Menu'}], function(allowed) {
+                PermissionService.isAllowed( $scope.currentUser, [{group: 'ui', permission: 'show admin menu'}], function(allowed) {
                     $scope.showAdminButtons = allowed;
                 });
                 // Show/Hide logout button
-                if($scope.currentUser.userroles[0].name == 'Anonymous') {
-                    $scope.isCurrentUserLoggedIn = false;
-                } else {
-                    $scope.isCurrentUserLoggedIn = true;
-                }
+                $scope.isCurrentUserLoggedIn = AuthenticationService.isCurrentUserLoggedIn();
 			});
 
             // UI ELEMENTS

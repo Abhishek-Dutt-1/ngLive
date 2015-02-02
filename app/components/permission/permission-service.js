@@ -24,6 +24,13 @@ Permission.service('PermissionService', ['$cacheFactory', 'ApiService', 'Notific
     // check if the user has all the permissions
     // returns true, false
     this.isAllowed = function(user, opts, cb) {
+	// This is obviously risky but since we are caching all permissions
+	// on client anyway (where they can be manipulated), this is ok
+	if(user.isAdmin === true) {
+		cb(true);
+                return;
+	}
+
     // user == user obj to be checked, user can have more than one userroles
     // opts is an array of permissions [perm1, perm2, ...] (currently different from backend function, that also needs to be changed)
 

@@ -38,11 +38,11 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
     $scope.loginUser = function(newUser) {
         $scope.loginFormProcessing = true;
         if($scope.loginForm.$valid) {
-		console.log(newUser);
+            console.log(newUser);
             ApiService.Auth.login(newUser, function(msg) {
                 NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
                 $scope.loginFormProcessing = false;
-		console.log(msg);
+                console.log(msg);
                 AuthenticationService.logInUser(msg.user);
                 $location.path('/');
             }, function(err) {

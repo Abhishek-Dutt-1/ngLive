@@ -29,7 +29,8 @@ ngLiveApp.service('ApiService', ['$resource', function($resource) {
     this.Auth = $resource('http://localhost:1337/', null, {
         //'login': {method: 'POST', url: 'http://localhost:1337/login'}
         'login': {method: 'POST', url: 'http://localhost:1337/auth/local'},
-        'register': {method: 'POST', url: 'http://localhost:1337/auth/local/register'}
+        'register': {method: 'POST', url: 'http://localhost:1337/auth/local/register'},
+        'getDefaultUsers': {method: 'GET', url: 'http://localhost:1337/auth/getdefaultusers'},
 
     });
 
