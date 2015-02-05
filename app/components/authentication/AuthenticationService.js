@@ -6,7 +6,7 @@ Authentication.service('AuthenticationService', ['ApiService', function(ApiServi
 	var ANONYMOUS_USER = { firstname: 'Guest User', lastname: '', userroles: [{name: 'Anonymous'}] };
     this.currentUser = ANONYMOUS_USER;
  
-    // Init
+    // Init: Fetch default user objects
     (function(_this) {
         ApiService.Auth.getDefaultUsers({}, function(defaultUser) {
             //_this.currentUser = defaultUser.unregisteredUser;
@@ -16,13 +16,10 @@ Authentication.service('AuthenticationService', ['ApiService', function(ApiServi
     })(this);
 
     this.logInUser = function(user) {
-    /* untill userroles are not returned
         this.currentUserLoggedIn = true;
         this.currentUser = user;
-        console.log(user);
-    */
-    // use this temp soln
-        this.getUserroleByUserId(user.id);
+    // use this temp soln -- depricated
+        //this.getUserroleByUserId(user.id);
     };
 
     this.logOutUser = function() {
@@ -40,6 +37,8 @@ Authentication.service('AuthenticationService', ['ApiService', function(ApiServi
 
     // Until user returned by login does not contains userroles
     // user this temp solution to attach them later
+    // -- Nevermind
+    /*
     this.getUserroleByUserId = function(user_id) {
         var _this = this;
         ApiService.User.get({userId: user_id}, function(userObj) {
@@ -48,5 +47,6 @@ Authentication.service('AuthenticationService', ['ApiService', function(ApiServi
             _this.currentUser = userObj;
         });
     };
+    */
 
 }]);

@@ -12,6 +12,12 @@ Notification.service('NotificationService', [ function() {
         newId++;
 
         message.id = newId;
+        //Ref: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+        if(!message.type) {
+            if(message.status >= 100 && message.status < 400) message.type = 'success';
+            if(message.status >= 400)  message.type = 'danger';
+        }
+
         this.messageQueue.push( message );
         return message.id;
     };

@@ -40,13 +40,14 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
         if($scope.loginForm.$valid) {
             console.log(newUser);
             ApiService.Auth.login(newUser, function(msg) {
-                NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
+                NotificationService.createNotification( {status: msg.status, type: 'success', text: 'Success Message'} );
                 $scope.loginFormProcessing = false;
                 console.log(msg);
                 AuthenticationService.logInUser(msg.user);
                 $location.path('/');
             }, function(err) {
-                NotificationService.createNotification( {type: 'danger', text: 'Error Message'} );
+                //NotificationService.createNotification( {type: 'danger', text: 'Error Message'} );
+                NotificationService.createNotification( {status: err.status, text: err.data} );
                 $scope.loginFormProcessing = false;
                 console.log(err);
             });
