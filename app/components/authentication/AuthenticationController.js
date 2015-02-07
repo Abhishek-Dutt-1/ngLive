@@ -20,11 +20,13 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
         if($scope.registerForm.$valid) {
 //            ApiService.User.save(newUser, function(msg) {
             ApiService.Auth.register(newUser, function(msg) {
-                NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
+                //NotificationService.createNotification( {type: 'success', text: 'Success Message'} );
+                NotificationService.createNotification( {type: 'success', text: msg.data} );
                 $scope.registerFormProcessing = false;
                 console.log(msg);
             }, function(err) {
-                NotificationService.createNotification( {type: 'danger', text: 'Error Message'} );
+                //NotificationService.createNotification( {type: 'danger', text: 'Error Message'} );
+                NotificationService.createNotification( {type: 'danger', text: err.data} );
                 $scope.registerFormProcessing = false;
                 console.log(err);
             });

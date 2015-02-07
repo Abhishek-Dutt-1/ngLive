@@ -1,0 +1,80 @@
+<div class="">
+    <div data-mainmenu-partial></div>
+
+    <div>
+    <div class="row">
+        <div class="col-md-offset-0 col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">User Profile</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            First Name
+                        </div>
+                        <div class="col-md-9">
+                            {{userProfile.firstname}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Last Name:
+                        </div>
+                        <div class="col-md-9">
+                            {{userProfile.lastname}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Username:
+                        </div>
+                        <div class="col-md-9">
+                            {{userProfile.username}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Email:
+                        </div>
+                        <div class="col-md-9">
+                            {{userProfile.email}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Country:
+                        </div>
+                        <div class="col-md-9">
+                            {{userProfile.country}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            IsAdmin:
+                        </div>
+                        <div class="col-md-9">
+                            {{userProfile.isAdmin}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Userroles:
+                        </div>
+                        <div class="col-md-9">
+                            <div ng-repeat="userroles in userProfile.userroles">
+                                {{userroles.name}} &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end row -->
+    </div>
+
+    <div data-mainmenu-footer-partial></div>
+    <notification></notification>
+
+</div>

@@ -15,6 +15,7 @@
                 </ul>
             </li>
 
+            <li data-ng-class="{active: isActive('/profile')}" data-ng-show="isCurrentUserLoggedIn"><a data-ng-href="#/profile">Profile</a></li>
             <li data-ng-class="{active: isActive('/login')}" data-ng-show="!isCurrentUserLoggedIn"><a data-ng-href="#/login">Log In | Register</a></li>
             <li data-ng-class="{active: isActive('/logout')}" data-ng-show="isCurrentUserLoggedIn"><a data-ng-href="#/logout">Logout</a></li>
         </ul>

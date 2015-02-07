@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission', 'Userprofile']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 
@@ -16,6 +16,10 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
        when('/', {
            templateUrl: 'components/frontpage/frontpageView.html',
            controller: 'FrontpageController'
+       }).
+       when('/profile', {
+           templateUrl: 'components/userprofile/userprofileView.html',
+           controller: 'UserprofileController'
        }).
        when('/login', {
            templateUrl: 'components/authentication/authenticationView.html',
