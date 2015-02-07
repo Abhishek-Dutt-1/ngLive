@@ -8,7 +8,7 @@
  * Controller of the ngLiveApp
  */
 
-Authentication.controller('AuthenticationController', ['$scope', '$location', 'ApiService', 'NotificationService', 'AuthenticationService', function($scope, $location, ApiService, NotificationService, AuthenticationService) {
+Authentication.controller('AuthenticationController', ['$scope', '$location', '$routeParams', 'ApiService', 'NotificationService', 'AuthenticationService', function($scope, $location, $routeParams, ApiService, NotificationService, AuthenticationService) {
 
 // Config
     $scope.registerFormProcessing = false;
@@ -65,6 +65,8 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
     };
 
 // Run
+
+
     if(AuthenticationService.isCurrentUserLoggedIn()) {
         // If user logged in
         if($location.path() == '/login') {
@@ -77,5 +79,16 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', 'A
     } else {
 
     }
+
+    // Logged in or not, user might be trying to verify email token
+    if($routeParams.token) {
+        ApiService.Auth.verifyEmailToken({token: $routeParams.token}, function(msg) {
+            NotificationService.createNotification( {type: 'success', text: msg.data} );
+            console.log(msg);
+        }, function(err) {
+            NotificationService.createNotification( {type: 'danger', text: err.data} );
+            console.log(err);
+        });
+    };
 
 }]);

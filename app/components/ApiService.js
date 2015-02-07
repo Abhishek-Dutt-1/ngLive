@@ -31,7 +31,7 @@ ngLiveApp.service('ApiService', ['$resource', function($resource) {
         'login': {method: 'POST', url: 'http://localhost:1337/auth/local'},
         'register': {method: 'POST', url: 'http://localhost:1337/auth/local/register'},
         'getDefaultUsers': {method: 'GET', url: 'http://localhost:1337/auth/getdefaultusers'},
-
+        'verifyEmailToken': {method: 'GET', url: 'http://localhost:1337/verify/:token'}
     });
 
 
