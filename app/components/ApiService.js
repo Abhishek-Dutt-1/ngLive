@@ -10,6 +10,8 @@
 
 ngLiveApp.service('ApiService', ['$resource', function($resource) {
 
+    var serverAddress = 'http://localhost:1337';
+
     this.init = function() {
         return 'From ApiService Init';
     };
@@ -33,6 +35,11 @@ ngLiveApp.service('ApiService', ['$resource', function($resource) {
         'getDefaultUsers': {method: 'GET', url: 'http://localhost:1337/auth/getdefaultusers'},
         'verifyEmailToken': {method: 'GET', url: 'http://localhost:1337/verify/:token'}
     });
+
+    this.Post = $resource('http://localhost:1337/post/:postId', null, {
+        'update': {method: 'POST'}
+    });
+
 
 
 }]);

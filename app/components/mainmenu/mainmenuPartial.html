@@ -3,6 +3,7 @@
         <ul class="nav nav-pills pull-right">
 			<li><a>Welcome: {{currentUser.firstname}}</a></li>
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">Home</a></li>
+            <li data-ng-class="{active: isActive('/post/new')}" data-ng-show="canCreatePost"><a data-ng-href="#/post/new">Create Post</a></li>
 
             <li role="presentation" class="dropdown" data-ng-class="{active: isActive('/admin/user')||isActive('/admin/userrole')||isActive('/admin/permission') }" data-ng-show="showAdminButtons">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-expanded="false">

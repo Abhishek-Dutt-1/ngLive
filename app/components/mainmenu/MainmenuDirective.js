@@ -18,6 +18,9 @@ Mainmenu.directive('mainmenuPartial', ['AuthenticationService', 'PermissionServi
                 PermissionService.isAllowed( $scope.currentUser, [{group: 'ui', permission: 'show admin menu'}], function(allowed) {
                     $scope.showAdminButtons = allowed;
                 });
+                PermissionService.isAllowed( $scope.currentUser, [{group: 'both', permission: 'can create post'}], function(allowed) {
+                    $scope.canCreatePost = allowed;
+                });
                 // Show/Hide logout button
                 $scope.isCurrentUserLoggedIn = AuthenticationService.isCurrentUserLoggedIn();
 			});
@@ -27,7 +30,6 @@ Mainmenu.directive('mainmenuPartial', ['AuthenticationService', 'PermissionServi
 			$scope.isActive = function(route) {
                 return route === $location.path();
             };
-
         },
     };
 }]);
