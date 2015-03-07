@@ -1,0 +1,100 @@
+<div class="">
+    <div data-mainmenu-partial></div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+
+        <div class="col-md-3">  <!-- begin col left -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">View All Post</h3>
+                </div>
+                <div class="panel-body">
+                    <div data-ng-repeat="post in postList">
+
+                        <div data-ng-if="post.type == 'link'">
+                            <div class="row">
+                                <div class="col-md-1"><img src={{post.image}}></div>
+                                <div class="col-md-11">
+                                    <div><h4><a ng-href="{{post.link}}" target="_blank">{{post.title}}</a>
+                                            <small><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></small>
+                                        </h4>
+                                    </div>
+                                    <div><h5>{{post.description}}</h5></div>
+                                    <div><a href="" data-ng-click="loadClickedPost(post.id)">Discuss</a></div>
+                                    <div>{{post.postedby.email}}</div>
+                                    <div>{{post.createdAt}}</div>
+                                    <div data-ng-if="post.showDelete"><a href="" ng-click="deletePost(post.id)">Delete</a></div>
+                                    <div data-ng-if="post.showEdit"><a href="" ng-click="deletePost(post.id)">Edit</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-ng-if="post.type == 'text'">
+                            <div class="row">
+                                <div class="col-md-1"><img src="{{post.image}}"></div>
+                                <div class="col-md-11">
+                                    <div><h4><a href="" data-ng-click="loadClickedPost(post.id)">{{post.title}}</a></h4></div>
+                                    <div><h5>{{post.description}}</h5></div>
+                                    <div><a href="" data-ng-click="loadClickedPost(post.id)">Discuss</a></div>
+                                    <div>{{post.postedby.email}}</div>
+                                    <div>{{post.createdAt}}</div>
+                                    <div data-ng-if="post.showDelete"><a href="" ng-click="deletePost(post.id)">Delete</a></div>
+                                    <div data-ng-if="post.showEdit"><a href="" ng-click="deletePost(post.id)">Edit</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+               </div>
+            </div> <!-- end panel -->
+        </div> <!-- end col left -->
+
+        <div class="col-md-9">  <!-- begin col right -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">View One Post</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div data-ng-if="clickedPost.type == 'link'">
+                        <div class="row">
+                            <div class="col-md-1"><img src={{clickedPost.image}}></div>
+                            <div class="col-md-11">
+                                <div><h4><a ng-href="{{clickedPost.link}}" target="_blank">{{clickedPost.title}}</a>
+                                        <small><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></small>
+                                    </h4>
+                                </div>
+                                <div><h5>{{clickedPost.description}}</h5></div>
+                                <div>{{clickedPost.postedby.email}}</div>
+                                <div>{{clickedPost.createdAt}}</div>
+                                <div data-ng-if="clickedPost.showDelete"><a href="" ng-click="deletePost(clickedPost.id)">Delete</a></div>
+                                <div data-ng-if="clickedPost.showEdit"><a href="" ng-click="deletePost(clickedPost.id)">Edit</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-ng-if="clickedPost.type == 'text'">
+                        <div class="row">
+                            <div class="col-md-1"><img src="{{clickedPost.image}}"></div>
+                            <div class="col-md-11">
+                                <div><h4><a href="" data-ng-click="loadClickedPost(clickedPost.id)">{{clickedPost.title}}</a></h4></div>
+                                <div><h5>{{clickedPost.description}}</h5></div>
+                                <div>{{clickedPost.postedby.email}}</div>
+                                <div>{{clickedPost.createdAt}}</div>
+                                <div data-ng-if="clickedPost.showDelete"><a href="" ng-click="deletePost(clickedPost.id)">Delete</a></div>
+                                <div data-ng-if="clickedPost.showEdit"><a href="" ng-click="deletePost(clieckedPost.id)">Edit</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+               </div>
+            </div> <!-- end panel -->
+        </div> <!-- end right col -->
+
+    </div>  <!-- end main row -->
+
+    <div data-mainmenu-footer-partial></div>
+    <notification></notification>
+
+</div>

@@ -18,6 +18,14 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
            controller: 'FrontpageController'
        }).
        when('/post/new', {
+           templateUrl: 'components/post/createPostView.html',
+           controller: 'PostController'
+       }).
+       when('/post/all', {
+           templateUrl: 'components/post/allPostView.html',
+           controller: 'PostController'
+       }).
+       when('/post/:postId', {
            templateUrl: 'components/post/postView.html',
            controller: 'PostController'
        }).

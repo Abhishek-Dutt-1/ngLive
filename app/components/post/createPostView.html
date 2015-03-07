@@ -1,0 +1,90 @@
+<div class="">
+    <div data-mainmenu-partial></div>
+
+    <div>
+    <div class="row">
+        <div class="col-md-offset-0 col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Create Post</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default" data-ng-class="{active: showLinkForm}" data-ng-click="showLinkForm = true">Link</button>
+                            <button type="button" class="btn btn-default" data-ng-class="{active: !showLinkForm}" data-ng-click="showLinkForm = false">Text</button>
+                        </div>
+                    </div>
+
+                    <div data-ng-show="showLinkForm">
+                        <form name="newPostLinkForm" class="form-horizontal" novalidate>
+                            <div class="form-group">
+                                <label for="inputTitleLink" class="col-sm-2 control-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputTitleLink" name="title" data-ng-model="newPostLink.title" placeholder="Post Title" required>
+                                    <span data-ng-show="newPostLinkForm.$submitted && newPostLinkForm.title.$error.required">
+                                        <p class="text-danger">Post title is required.</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputLink" class="col-sm-2 control-label">Link</label>
+                                <div class="col-sm-10">
+                                    <input type="url" class="form-control" id="inputLink" name="link" data-ng-model="newPostLink.link" placeholder="URL" required>
+                                    <span data-ng-show="newPostLinkForm.$submitted && !newPostLinkForm.link.$valid">
+                                        <p class="text-danger">Link must be valid. (http://example.com)</p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDescriptionLink" class="col-sm-2 control-label">Text</label>
+                                <div class="col-sm-10">
+                                    <textarea rows="3" class="form-control" id="inputDescriptionLink" data-ng-model="newPostLink.description" placeholder="Share whats on your mind."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" data-ng-disabled="newPostFormProcessing" data-ng-click="createPostLink(newPostLink)">Create New Post</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div data-ng-show="!showLinkForm">
+                        <form name="newPostTextForm" class="form-horizontal" novalidate>
+                            <div class="form-group">
+                                <label for="inputTitleText" class="col-sm-2 control-label">Title</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputTitleText" name="title" data-ng-model="newPostText.title" placeholder="Post Title" required>
+                                    <span data-ng-show="newPostTextForm.$submitted && newPostTextForm.title.$error.required">
+                                        <p class="text-danger">Post title is required.</p>
+                                    </span>
+                                </div>
+                            </div>
+                           <div class="form-group">
+                                <label for="inputDescriptionText" class="col-sm-2 control-label">Text</label>
+                                <div class="col-sm-10">
+                                    <textarea rows="3" class="form-control" id="inputDescriptionText" data-ng-model="newPostText.description" placeholder="Share whats on your mind."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default" data-ng-disabled="newPostFormProcessing" data-ng-click="createPostText(newPostText)">Create New Post</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+               </div>
+            </div>
+        </div>
+    </div> <!-- end row -->
+    </div>
+
+    <div data-mainmenu-footer-partial></div>
+    <notification></notification>
+
+</div>
