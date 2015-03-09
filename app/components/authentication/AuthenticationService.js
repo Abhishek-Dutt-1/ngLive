@@ -10,7 +10,9 @@ Authentication.service('AuthenticationService', ['ApiService', function(ApiServi
     (function(_this) {
         ApiService.Auth.getDefaultUsers({}, function(defaultUser) {
             //_this.currentUser = defaultUser.unregisteredUser;
-            ANONYMOUS_USER = defaultUser.unregisteredUser;
+            console.log(defaultUser);
+            ANONYMOUS_USER = defaultUser;
+            //ANONYMOUS_USER = defaultUser.unregisteredUser;
             _this.logOutUser();
         });
     })(this);
