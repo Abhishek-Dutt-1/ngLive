@@ -19,6 +19,7 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
     $scope.newCommentFormProcessing = false;
     $scope.commentedonId;       // id of the commented on post
     $scope.replyingTo = { type: undefined, obj: {id: undefined} };     // since same form will be used for replyign to posts and comments, keep track what is being replyied to
+    $scope.newComment = {};  // Object for storing newComment form data
 
     /* Post CRUD */
     $scope.fetchAll = function() {
@@ -66,10 +67,14 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
     };
 
     $scope.deleteComment = function(commentId) {
-       ApiService.Comment.delete({commentId: commentId}, function(msg) {
+        ApiService.Comment.delete({commentId: commentId}, function(msg) {
             // comment succeessfully deleted
             // remove it from the frontend ui
+            var deleted = false;
             $scope.clickedPost.comments = $scope.clickedPost.comments.filter(function(comment) { return msg.id != comment.id; }); 
+            $scope.clickedPost.comments.forEach(function(comment, ind, arr) {
+                comment.childComments = comment.childComments.filter( function(childComment) { return msg.id != childComment.id; } ); 
+            });
             //$scope.fetchAll();
         }, function(err) {
             console.log(err);
@@ -125,7 +130,7 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
     };
 
 
-    // not used anymore
+    // NOT USED ANYMORE !!!
     $scope.fetchOne = function(postId) {
         ApiService.Post.get({postId: postId}, function(post) {
             $scope.postList = $scope.attachPermissions([post]);
@@ -155,10 +160,15 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
         // Reset comment form
         $scope.showCommentForm = false;
         $scope.replyingTo = { type: undefined, obj: {id: undefined} };       
-//        ApiService.Post.get({postId: postId}, function(post) {
+
+        // Get the psot along with associations
         ApiService.Post.getPostById({postId: postId}, function(post) {
 
             $scope.clickedPost = $scope.attachPermissions(post)
+            $scope.clickedPost.voteWidget = {state: 'OK'};
+            // TESTING:: This should come from backend
+            // UP/DONW/False
+            $scope.clickedPost.currentUserVote = false;
 
             // Attach permissions to comments
             $scope.clickedPost.comments.forEach(function(comment, ind, arr) {
@@ -183,7 +193,7 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
         $scope.replyingTo = {type: postType, obj: post};
     };
     // show hide comment form
-    $scope.toggleCommentForm = function( ) {
+    $scope.toggleCommentForm = function() {
         $scope.showCommentForm = !$scope.showCommentForm;
     };
 
@@ -206,12 +216,19 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
                 newComment.parentComment = $scope.replyingTo.obj.id; 
             };
 
-           ApiService.Comment.save(newComment, function(msg) {
+            ApiService.Comment.save(newComment, function(msg) {
 
+                // Reload the psot
+                $scope.loadClickedPost($scope.clickedPost.id);
+                $scope.newComment = {};
+                $scope.showCommentForm = false;
+                $scope.newCommentFormProcessing = false;
+ 
+
+/* No need/ Sails does this automatically
                 // first create the new comment
                 // get its id
                 // update original posts/comment with this id
-                
                 if($scope.replyingTo.type == 'post') {
                     ApiService.Post.addCommentToPost({postid: newComment.commentedon, commentid: msg.id}, function(msg2) {
                         console.log(msg2);
@@ -223,7 +240,6 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
                         console.log(err2);
                     });
                 };
-
                 if($scope.replyingTo.type == 'comment') {
                     ApiService.Comment.addReplyToComment({parentcommentid: newComment.parentComment, commentid: msg.id, commentedon: $scope.clickedPost.id}, function(msg2) {
                         $scope.loadClickedPost($scope.clickedPost.id);
@@ -234,6 +250,7 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
                         console.log(err2);
                     });
                 };
+*/
  
             }, function(err) {
                 console.log(err);
@@ -308,6 +325,27 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
                 post.showReply = isAllowed;
             });
         });
+
+    // Check Voting Permissions
+        posts.forEach( function(post) {
+            var perms = [];
+            post.showEdit = false;
+            // A elevated permission user can delete the post any ways
+            perms.push({group: 'vote', permission: 'can vote on any post'});
+            // check if it's the current users own post
+            if(post.postedby.id == AuthenticationService.getCurrentUser().id) {
+                // user can delete own posts if allowed
+                perms.push({group: 'vote', permission: 'can vote on own post'});
+            } else {
+                // if the post does not belong to current user
+            }
+            PermissionService.isAllowedANY(AuthenticationService.getCurrentUser(), perms, function(isAllowed) {
+                // is current user allowed to vote
+                post.canVote = isAllowed;
+            });
+        });
+
+
  
         return isArray? posts : posts[0];
     };
@@ -352,6 +390,84 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
         return isArray? comments : comments[0];
     };
 
+    //User voted UP a post
+    $scope.toggleVoteUp = function(post) {
+        if($scope.clickedPost.currentUserVote !== "UP") {
+            console.log(post);
+            post.voteWidget.state ="loading";
+            console.log("Voted UP");
+            post.voteWidget.state = "Done";
+            post.currentUserVote = "UP";
+        } else {
+            console.log(post);
+            post.voteWidget.state ="loading";
+            console.log("Voted UP Cancel");
+            post.voteWidget.state = "Done";
+            post.currentUserVote = false;
+        }
+    };
+
+    //User voted DOWN a post
+    $scope.toggleVoteDown = function(post) {
+
+        if($scope.clickedPost.currentUserVote !== "DOWN") {
+
+            console.log(post);
+            post.voteWidget.state ="loading";
+            console.log("Voted DOWN");
+            //post.voteWidget.state = "Done";
+            //post.currentUserVote = "DOWN";
+            var vote = {
+                votedOn: post.id,
+                votedBy: AuthenticationService.getCurrentUser().id,
+                voteType: 1,
+                voteValue: -1,
+            };
+            console.log(vote);
+            ApiService.Vote.addVoteToPost(vote, function(msg) {
+                console.log(msg);
+                // Update Current displayed post
+                post.votesDown = msg.votesDown;
+                // <------------ THIS SHOULD BE THE ACTUAL USERS VOTE OBJECT, BECAUSE VOTE ID WOULD BE REQURIED TO CANCEL THE VOTE
+                // Not really, when cancelling a vote, user's vote can be looked up by the backend and removed there itself
+                post.currentUserVote = "DOWN";                      
+                post.voteWidget.state = "Done";
+                NotificationService.createNotification( {type: 'success', text: msg.title} );
+            }, function(err) {
+                console.log(err);
+                NotificationService.createNotification( {type: 'danger', text: err.data} );
+            });
+
+        } else {
+            console.log(post);
+            post.voteWidget.state = "loading";
+            console.log("Voted DOWN Cancel");
+            var vote = {
+                votedOn: post.id,
+                votedBy: AuthenticationService.getCurrentUser().id,
+                voteType: 1,
+                voteValue: -1,  // Vote value is required if user has given both upvote and downvote, then cancel only the required vote
+            };
+
+            ApiService.Vote.cancelUsersVote(vote, function(msg) {
+                console.log(msg);
+                // Update Current displayed post
+                post.votesDown = msg.votesDown;
+                // <------------ THIS SHOULD BE THE ACTUAL USERS VOTE OBJECT, BECAUSE VOTE ID WOULD BE REQURIED TO CANCEL THE VOTE
+                // Not really, when cancelling a vote, user's vote can be looked up by the backend and removed there itself
+                //post.currentUserVote = "DOWN";                      
+                post.currentUserVote = false; 
+                post.voteWidget.state = "Done";
+                NotificationService.createNotification( {type: 'success', text: msg.title} );
+            }, function(err) {
+                console.log(err);
+                NotificationService.createNotification( {type: 'danger', text: err.data} );
+            });
+
+            //post.voteWidget.state = "Done";
+            //post.currentUserVote = false; 
+        }
+    };
 
 // Run
     // Get all users
@@ -361,8 +477,5 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
     } else {
         $scope.fetchAll();
     }
-
-    console.log(AuthenticationService.getCurrentUser()); 
-
 
 }]);

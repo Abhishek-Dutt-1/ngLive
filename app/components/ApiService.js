@@ -48,6 +48,13 @@ ngLiveApp.service('ApiService', ['$resource', function($resource) {
         'addReplyToComment':  {method: 'POST', url: 'http://localhost:1337/comment/addreplytocomment/'}
     });
 
+    this.Vote = $resource('http://localhost:1337/vote/:voteId', null, {
+        'update': {method: 'POST'},
+        'addVoteToPost':  {method: 'POST', url: 'http://localhost:1337/vote/addvotetopost/'},
+        'cancelUsersVote':  {method: 'POST', url: 'http://localhost:1337/vote/cancelUsersVote/'}
+    });
+
+
 
 
 

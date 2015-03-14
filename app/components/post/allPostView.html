@@ -50,10 +50,12 @@
                 <div class="panel-body">
 
                     <div class="row" data-ng-show="clickedPost">
-                        <div class="col-md-1">
+
+                        <div class="col-md-3">
+                            <div data-vote-widget post="clickedPost" toggle-vote-up="toggleVoteUp(clickedPost)" toggle-vote-down="toggleVoteDown(clickedPost)"></div>
                             <img src={{clickedPost.image}}>
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-9">
 
                             <div data-ng-if="clickedPost.type == 'link'">
                                 <div><h4><a ng-href="{{clickedPost.link}}" target="_blank">{{clickedPost.title}}</a>
