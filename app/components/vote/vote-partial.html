@@ -1,15 +1,19 @@
 <div class="">
+<!--
     Can Vote: {{post.canVote}}<br>
     Current Users Vote: {{post.currentUserVote}}<br>
+    Current User VotedUP: {{post.currentUserVotedUp}}<br>
+    Current User VotedDown: {{post.currentUserVotedDown}}<br>
     VotesUp: {{post.votesUp}}<br>
     VotesDown: {{post.votesDown}}<br>
-    <div data-ng-class="{'bg-primary': post.currentUserVote == 'UP'}">
+-->
+    <div data-ng-class="{'bg-primary': post.currentUserVotedUp}">
         <a href="" data-ng-click="toggleVoteUp()">
             <h4><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></h4>
         </a>
     </div>
     {{post.votesUp - post.votesDown}}
-    <div data-ng-class="{'bg-primary': post.currentUserVote == 'DOWN'}">
+    <div data-ng-class="{'bg-primary': post.currentUserVotedDown}">
         <a href="" data-ng-click="toggleVoteDown()">
             <h4><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></h4>
         </a>

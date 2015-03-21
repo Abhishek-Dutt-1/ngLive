@@ -15,7 +15,6 @@
                     <select data-ng-model="userroleSelectModelList[$index]" data-ng-change="addUserroleToUser(userroleSelectModelList[$index].id, user.id)" data-ng-options="role as role.name for role in userroleList"></select>
                 </div>
                 <div class="col-md-1">{{user.articles}}</div>
-                <div class="col-md-1">{{user.comments}}</div>
                 <div class="col-md-2">{{user.createdAt}}</div>
                 <div class="col-md-2">{{user.updatedAt}}</div>
                 <div class="col-md-1"><a href="" data-ng-click="deleteUser(user.id)">x</a></div>

@@ -51,11 +51,11 @@
 
                     <div class="row" data-ng-show="clickedPost">
 
-                        <div class="col-md-3">
+                        <div class="col-md-1">
                             <div data-vote-widget post="clickedPost" toggle-vote-up="toggleVoteUp(clickedPost)" toggle-vote-down="toggleVoteDown(clickedPost)"></div>
                             <img src={{clickedPost.image}}>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-11">
 
                             <div data-ng-if="clickedPost.type == 'link'">
                                 <div><h4><a ng-href="{{clickedPost.link}}" target="_blank">{{clickedPost.title}}</a>
@@ -97,8 +97,8 @@
                                 <td>{{comment.postedby.email}}</td>
                                 <td>{{comment.createdAt}}</td>
                                 <td>
-                                    <span data-ng-show="comment.showReply"><a href="" data-ng-click="displayCommentForm(comment, 'comment')">Reply</a></span>
                                     <span data-ng-show="comment.showDelete"><a href="" data-ng-click="deleteComment(comment.id)">Delete</a></span>
+                                    <span data-ng-show="comment.showReply"><a href="" data-ng-click="displayCommentForm(comment, 'comment')">Reply</a></span>
                                 </td>
                             </tr>
                             <tr class="warning1" style="color: grey;" data-ng-repeat="childComment in comment.childComments">

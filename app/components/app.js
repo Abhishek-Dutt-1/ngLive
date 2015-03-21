@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission', 'Userprofile', 'Post']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'Api', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission', 'Userprofile', 'Post', 'Vote']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 

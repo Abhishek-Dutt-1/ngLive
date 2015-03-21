@@ -1,5 +1,3 @@
-
-// NOT USED, put in a seprate module //
 'use strict';
 
 /**
@@ -10,7 +8,7 @@
  * Service of the ngLiveApp
  */
 
-ngLiveApp.service('ApiService', ['$resource', function($resource) {
+Api.service('ApiService', ['$resource', function($resource) {
 
     var serverAddress = 'http://localhost:1337';
 

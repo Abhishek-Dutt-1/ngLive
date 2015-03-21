@@ -166,9 +166,16 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
 
             $scope.clickedPost = $scope.attachPermissions(post)
             $scope.clickedPost.voteWidget = {state: 'OK'};
-            // TESTING:: This should come from backend
-            // UP/DONW/False
-            $scope.clickedPost.currentUserVote = false;
+            // Check if the current user has voted on this post
+            $scope.clickedPost.currentUserVotedUp = false;
+            $scope.clickedPost.currentUserVotedDown = false;
+            if($scope.clickedPost.votes.length) {
+                console.log("Testing votes");
+                $scope.clickedPost.votes.forEach(function(vote) {
+                    if(vote.voteType == 1 && vote.voteValue == 1) $scope.clickedPost.currentUserVotedUp = true;
+                    if(vote.voteType == 1 && vote.voteValue == -1) $scope.clickedPost.currentUserVotedDown = true;
+                });
+            }
 
             // Attach permissions to comments
             $scope.clickedPost.comments.forEach(function(comment, ind, arr) {
@@ -181,6 +188,8 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
                 arr[ind].childComments = $scope.attachPermissionsToComments(comment.childComments);
                 //console.log(comment.childComments);
             });
+
+            console.log($scope.clickedPost);
 
         }, function(err) {
             console.log(err);
@@ -326,7 +335,7 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
             });
         });
 
-    // Check Voting Permissions
+        // Check Voting Permissions
         posts.forEach( function(post) {
             var perms = [];
             post.showEdit = false;
@@ -392,25 +401,97 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
 
     //User voted UP a post
     $scope.toggleVoteUp = function(post) {
-        if($scope.clickedPost.currentUserVote !== "UP") {
+        // check voting permissions
+        if(!post.canVote) return;
+
+        if($scope.clickedPost.currentUserVotedUp !== true) {
+
             console.log(post);
             post.voteWidget.state ="loading";
             console.log("Voted UP");
             post.voteWidget.state = "Done";
             post.currentUserVote = "UP";
+
+            console.log(post);
+            post.voteWidget.state ="loading";
+            console.log("Voted UP");
+            //post.voteWidget.state = "Done";
+            //post.currentUserVote = "DOWN";
+            var vote = {
+                votedOn: post.id,
+                votedBy: AuthenticationService.getCurrentUser().id,     // Overwritten by backend
+                voteType: 1,
+                voteValue: 1,
+            };
+            console.log(vote);
+
+            ApiService.Vote.addVoteToPost(vote, function(msg) {
+                //msg is the votedOn post
+                console.log(msg);
+                // Update Current displayed post
+                post.votesUp = msg.votesUp;
+                // <------------ THIS SHOULD BE THE ACTUAL USERS VOTE OBJECT, BECAUSE VOTE ID WOULD BE REQURIED TO CANCEL THE VOTE
+                // Not really, when cancelling a vote, user's vote can be looked up by the backend and removed there itself
+                post.currentUserVotedUp = true;                      
+                post.voteWidget.state = "Done";
+
+                // Voting Up automatically cancels a Down vote
+                if($scope.clickedPost.currentUserVotedDown == true) {
+                    $scope.toggleVoteDown(post);
+                }
+
+                NotificationService.createNotification( {type: 'success', text: msg.title} );
+            }, function(err) {
+                console.log(err);
+                NotificationService.createNotification( {type: 'danger', text: err.data} );
+            });
+
         } else {
             console.log(post);
             post.voteWidget.state ="loading";
             console.log("Voted UP Cancel");
             post.voteWidget.state = "Done";
             post.currentUserVote = false;
+
+            console.log(post);
+            post.voteWidget.state = "loading";
+            console.log("Voted UP Cancel");
+            var vote = {
+                votedOn: post.id,
+                votedBy: AuthenticationService.getCurrentUser().id,
+                voteType: 1,
+                voteValue: 1,  // Vote value is required if user has given both upvote and downvote, then cancel only the required vote
+            };
+
+            ApiService.Vote.cancelUsersVote(vote, function(msg) {
+                console.log(msg);
+                // Update Current displayed post
+                post.votesUp = msg.votesUp;
+                // <------------ THIS SHOULD BE THE ACTUAL USERS VOTE OBJECT, BECAUSE VOTE ID WOULD BE REQURIED TO CANCEL THE VOTE
+                // Not really, when cancelling a vote, user's vote can be looked up by the backend and removed there itself
+                //post.currentUserVote = "DOWN";
+                post.currentUserVotedUp = false;                      
+                post.voteWidget.state = "Done";
+                NotificationService.createNotification( {type: 'success', text: msg.title} );
+            }, function(err) {
+                console.log(err);
+                NotificationService.createNotification( {type: 'danger', text: err.data} );
+            });
+
+            //post.voteWidget.state = "Done";
+            //post.currentUserVote = false; 
+ 
         }
     };
 
     //User voted DOWN a post
     $scope.toggleVoteDown = function(post) {
-
-        if($scope.clickedPost.currentUserVote !== "DOWN") {
+        // check voting permissions
+        if(!post.canVote) return;
+ 
+        // Here we should check for permission if a user is allowed to 
+        // vote multiple times, for simplicity we assume its not
+        if($scope.clickedPost.currentUserVotedDown !== true) {
 
             console.log(post);
             post.voteWidget.state ="loading";
@@ -419,19 +500,26 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
             //post.currentUserVote = "DOWN";
             var vote = {
                 votedOn: post.id,
-                votedBy: AuthenticationService.getCurrentUser().id,
+                votedBy: AuthenticationService.getCurrentUser().id,     // Overwritten by backend
                 voteType: 1,
                 voteValue: -1,
             };
             console.log(vote);
+
             ApiService.Vote.addVoteToPost(vote, function(msg) {
                 console.log(msg);
                 // Update Current displayed post
                 post.votesDown = msg.votesDown;
                 // <------------ THIS SHOULD BE THE ACTUAL USERS VOTE OBJECT, BECAUSE VOTE ID WOULD BE REQURIED TO CANCEL THE VOTE
                 // Not really, when cancelling a vote, user's vote can be looked up by the backend and removed there itself
-                post.currentUserVote = "DOWN";                      
+                post.currentUserVotedDown = true;                      
                 post.voteWidget.state = "Done";
+
+                // Voting Up automatically cancels a Down vote
+                if($scope.clickedPost.currentUserVotedUp == true) {
+                    $scope.toggleVoteUp(post);
+                }
+
                 NotificationService.createNotification( {type: 'success', text: msg.title} );
             }, function(err) {
                 console.log(err);
@@ -455,8 +543,8 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
                 post.votesDown = msg.votesDown;
                 // <------------ THIS SHOULD BE THE ACTUAL USERS VOTE OBJECT, BECAUSE VOTE ID WOULD BE REQURIED TO CANCEL THE VOTE
                 // Not really, when cancelling a vote, user's vote can be looked up by the backend and removed there itself
-                //post.currentUserVote = "DOWN";                      
-                post.currentUserVote = false; 
+                //post.currentUserVote = "DOWN";
+                post.currentUserVotedDown = false;                      
                 post.voteWidget.state = "Done";
                 NotificationService.createNotification( {type: 'success', text: msg.title} );
             }, function(err) {
