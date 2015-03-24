@@ -13,6 +13,7 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', '$
 // Config
     $scope.registerFormProcessing = false;
     $scope.loginFormProcessing = false;
+    $scope.locationList = [];
 
     $scope.registerNewUser = function(newUser) {
         console.log(newUser);
@@ -64,7 +65,14 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', '$
         NotificationService.createNotification( {type: 'success', text: 'Logout Success Message'} );
     };
 
-// Run
+    $scope.fetchLocations = function() {
+        ApiService.Cities.fetchUniqueLocations({}, function(allLocations) {
+            $scope.locationList = allLocations;
+        });
+       
+    };
+
+//////////////////// Run
 
 
     if(AuthenticationService.isCurrentUserLoggedIn()) {
@@ -77,6 +85,9 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', '$
             $location.path('/').replace();
         }
     } else {
+        // User is not logged In
+        // Fetch list of all Countries and Cities
+        $scope.fetchLocations();
 
     }
 

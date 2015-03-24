@@ -1,0 +1,142 @@
+<div class="">
+    <div data-mainmenu-partial></div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Fetch All/Fetch One</h3>
+            <div class="row" data-ng-repeat="cities in citiesList">
+                <div class="col-md-2">{{cities.id}}</div>
+                <div class="col-md-1">{{cities.continent}}</div>
+                <div class="col-md-1">{{cities.country}}</div>
+                <div class="col-md-1">{{cities.state}}</div>
+                <div class="col-md-1">{{cities.city}}</div>
+                <div class="col-md-2">{{cities.createdAt}}</div>
+                <div class="col-md-2">{{cities.updatedAt}}</div>
+                <div class="col-md-1"><a href="" data-ng-click="deleteCities(cities.id)">x</a></div>
+            </div>
+        </div>
+    </div>
+
+	<div class="row">
+		<div class="col-xs-12">
+		    <h3>Create One</h3>
+		    <form>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="continent">Continent</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" id="continent" class="form-control" data-ng-model="newCities.continent">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="country">Country</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" id="country" class="form-control" data-ng-model="newCities.country">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="state">State/Region</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" id="state" class="form-control" data-ng-model="newCities.state">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="city">City</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" id="city" class="form-control" data-ng-model="newCities.city">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-default" data-ng-click="createCities(newCities)">Create</button>
+                    </div>
+                </div>
+		    </form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+		    <h3>Fetch One</h3>
+		    <form>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="fetchId">Id</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="fetchId" data-ng-model="cities.id">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">	
+                        <button type="submit" class="btn btn-default" data-ng-click="fetchOne(cities.id)">Fetch</button>
+                    </div>
+                </div>
+		    </form>
+		</div>
+	</div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Update By Id</h3>
+            <form>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="id">Id</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="id" data-ng-model="updatedCities.id">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="updateContinent">Continent</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="updateContinent" data-ng-model="updatedCities.continent">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="updateCountry">Country</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="updateCountry" data-ng-model="updatedCities.country">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="updateState">State/Region</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="updateState" data-ng-model="updatedCities.state">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="updateCity">City</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="updateCity" data-ng-model="updatedCities.city">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-default" data-ng-click="updateCities(updatedCities)">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div>
+
+
+    <div data-mainmenu-footer-partial></div>
+    <notification></notification>
+</div>

@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'Api', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission', 'Userprofile', 'Post', 'Vote']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'Api', 'Settings', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission', 'Cities', 'Userprofile', 'Post', 'Vote']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 
@@ -57,6 +57,10 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
        when('/admin/permission', {
            templateUrl: 'components/permission/permissionView.html',
            controller: 'PermissionController'
+       }).
+       when('/admin/cities', {
+           templateUrl: 'components/cities/citiesView.html',
+           controller: 'CitiesController'
        }).
        otherwise({
            redirectTo: '/'

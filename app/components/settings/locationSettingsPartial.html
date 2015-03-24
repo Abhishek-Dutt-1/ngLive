@@ -1,0 +1,46 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Selection:</h4>
+                <span data-ng-show="currentGeoSelection.global">Global</span> ||
+                <span data-ng-repeat="continent in currentGeoSelection.continents">{{continent}}, </span> ||
+                <span data-ng-repeat="country in currentGeoSelection.countries">{{country.name}}, </span> ||
+                <span data-ng-repeat="state in currentGeoSelection.states">{{state.name}}, </span>
+            </div>
+            <div class="modal-body">
+                <div class="row"><div class="col-md-12">
+                    <button class="btn btn-default" data-ng-click="changeSelection('global', 'global');">
+                        Global
+                    </button>
+                </div></div>
+                <div class="row"><div class="col-md-12">
+                    <button data-ng-repeat="continent in geo.continents" class="btn btn-default" data-ng-click="loadCountries(continent);">
+                        {{continent}}
+                    </button>
+                </div></div>
+                <div class="row"><div class="col-md-12">
+                     <button data-ng-repeat="country in geo.countries" class="btn btn-default" data-ng-click="loadStates(country)">
+                        {{country.name}}
+                    </button>
+                </div></div>
+                <div class="row"><div class="col-md-12">
+                     <button data-ng-repeat="state in geo.states" class="btn btn-default" data-ng-click="loadCities(state);">
+                        {{state.name}}
+                    </button>
+                </div></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

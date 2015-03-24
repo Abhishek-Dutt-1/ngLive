@@ -28,6 +28,11 @@ Api.service('ApiService', ['$resource', function($resource) {
         'update': {method: 'POST'}
     });
 
+    this.Cities = $resource(serverAddress+'/cities/:citiesId', null, {
+        'update': {method: 'POST'},
+        'fetchUniqueLocations': {method: 'GET', url: serverAddress+'/cities/fetchuniquelocations/', isArray: true}
+    });
+
     this.Auth = $resource(serverAddress+'/', null, {
         //'login': {method: 'POST', url: serverAddress+'/login'}
         'login': {method: 'POST', url: serverAddress+'/auth/local'},
