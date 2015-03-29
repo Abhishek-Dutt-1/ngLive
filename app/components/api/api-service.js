@@ -12,7 +12,7 @@ Api.service('ApiService', ['$resource', function($resource) {
 
     var serverAddress = 'http://localhost:1337';
 
-    this.init = function() {
+    var init = function() {
         return 'From ApiService Init';
     };
 
@@ -30,7 +30,8 @@ Api.service('ApiService', ['$resource', function($resource) {
 
     this.Cities = $resource(serverAddress+'/cities/:citiesId', null, {
         'update': {method: 'POST'},
-        'fetchUniqueLocations': {method: 'GET', url: serverAddress+'/cities/fetchuniquelocations/', isArray: true}
+        'fetchUniqueLocations': {method: 'GET', url: serverAddress+'/cities/fetchuniquelocations/', isArray: true},
+        'fetchUniqueCountries': {method: 'GET', url: serverAddress+'/cities/fetchuniquecountries/', isArray: true}
     });
 
     this.Auth = $resource(serverAddress+'/', null, {

@@ -1,15 +1,203 @@
 'use strict';
 
-Settings.directive('settingsLocation', ['PermissionService', function(AuthenticationService, PermissionService) {
+Settings.directive('settingsLocation', ['ApiService', 'lodash', 'SettingsService', function(ApiService, lodash, SettingsService) {
     return {
-        scope: {},
-        restrict: 'AE',
-        templateUrl: 'components/settings/locationSettingsPartial.html',
-        controller: function($scope, $element, $attrs, $location) {
-            $scope.currentGeoSelection = {global: false, continents: [], countries: [], states: []};
-            $scope.geo = {};
-            $scope.geo.continents = ['Asia', 'Europe', 'North America', 'South America', 'Africa'];
 
+        scope: {},
+
+        restrict: 'AE',
+
+        templateUrl: 'components/settings/locationSettingsPartial.html',
+
+        controller: function($scope, $element, $attrs, $location) {
+            
+            $scope.allLocations = [];
+
+            // TODO: Currently it loads this in the beggining
+            // This should only load when the button is pressed
+            SettingsService.fetchUniqueLocations(function(allLocations) {
+                $scope.allLocations = allLocations;
+            });
+
+            $scope.currentGeoSelection = {global: false, continents: [], countries: [], states: [], cities: []};
+
+            $scope.changeSelection = function(selection, type) {
+                if(type == 'global') {
+                    $scope.currentGeoSelection.global = !$scope.currentGeoSelection.global;
+                };
+                if(type === 'continent') {
+                    // Check if it is already selected
+                    var pos = $scope.currentGeoSelection.continents.indexOf(selection);
+                    // Toggle if present
+                    if(pos > -1) {
+                        $scope.currentGeoSelection.continents.splice(pos, 1);
+                    } else {
+                        // Adding a continent
+                        $scope.currentGeoSelection.continents.push(selection);
+
+                        var matchingCountries = lodash.chain($scope.allLocations).filter({continent: selection}).pluck('countries').value()[0]; // pluck returns an array
+                        lodash.forEach(matchingCountries, function(country) {
+                            // Remove all Countries that belong to this continent
+                            if($scope.currentGeoSelection.countries.indexOf(country.country) > -1) {
+                                $scope.currentGeoSelection.countries.splice( $scope.currentGeoSelection.countries.indexOf(country.country) , 1);
+                            };
+                            country.states.forEach(function(state) {
+                                // Remove all States that belong to this continent
+                                if($scope.currentGeoSelection.states.indexOf(state.state) > -1) {
+                                    $scope.currentGeoSelection.states.splice( $scope.currentGeoSelection.states.indexOf(state.state) , 1);
+                                };
+                                state.cities.forEach(function(city) {
+                                    // Remove all Cities that belong to this continent
+                                    if($scope.currentGeoSelection.cities.indexOf(city) > -1) {
+                                        $scope.currentGeoSelection.cities.splice( $scope.currentGeoSelection.cities.indexOf(city) , 1);
+                                    };
+                                });
+                            });
+                        });
+                    }
+                };
+                // 
+                if(type === 'country') {
+                    // Check if it is already selected
+                    var pos = $scope.currentGeoSelection.countries.indexOf(selection);
+                    // Toggle if present
+                    if(pos > -1) {
+                        $scope.currentGeoSelection.countries.splice(pos, 1);
+                    } else {
+                        // Add a country
+                        $scope.currentGeoSelection.countries.push(selection);
+
+                        // First find which continent the selected country belongs to
+                        var selectionContinent = '';
+                        $scope.allLocations.forEach(function(continent) {
+                            continent.countries.forEach(function(country) {
+                                if(country.country == selection) {
+                                    selectionContinent = continent.continent;
+                                };
+                            });
+                        });
+
+                        var matchingCountries = lodash.chain($scope.allLocations).filter({continent: selectionContinent}).pluck('countries').value()[0]; // pluck returns an array
+                        var matchingStates = lodash.chain(matchingCountries).filter({country: selection}).pluck('states').value()[0];
+
+                        // Remove selected countrie's continent also if present
+                        if($scope.currentGeoSelection.continents.indexOf(selectionContinent) > -1) {
+                            $scope.currentGeoSelection.continents.splice( $scope.currentGeoSelection.continents.indexOf(selectionContinent) , 1);
+                        };
+                        lodash.forEach(matchingStates, function(state) {
+                            // Remove all States that belong to this Country
+                            if($scope.currentGeoSelection.states.indexOf(state.state) > -1) {
+                                $scope.currentGeoSelection.states.splice( $scope.currentGeoSelection.states.indexOf(state.state) , 1);
+                            };
+                            state.cities.forEach(function(city) {
+                                // Remove all Cities that belong to this State
+                                if($scope.currentGeoSelection.cities.indexOf(city) > -1) {
+                                    $scope.currentGeoSelection.cities.splice( $scope.currentGeoSelection.cities.indexOf(city) , 1);
+                                };
+                            });
+                        });
+                    }
+                };
+                // 
+                if(type === 'state') {
+                    // Check if it is already selected
+                    var pos = $scope.currentGeoSelection.states.indexOf(selection);
+                    // Toggle if present
+                    if(pos > -1) {
+                        $scope.currentGeoSelection.states.splice(pos, 1);
+                    } else {
+                        // Add a state
+                        $scope.currentGeoSelection.states.push(selection);
+
+                        // First find which Continent and Country the selected state belongs to
+                        var selectionContinent = '';
+                        var selectionCountry = '';
+                        $scope.allLocations.forEach(function(continent) {
+                            continent.countries.forEach(function(country) {
+                                country.states.forEach(function(state) {
+                                    if(state.state == selection) {
+                                        selectionContinent = continent.continent;
+                                        selectionCountry = country.country;
+                                    };
+                                });
+                            });
+                        });
+ 
+                        var matchingCountries = lodash.chain($scope.allLocations).filter({continent: selectionContinent}).pluck('countries').value()[0]; // pluck returns an array
+                        var matchingStates = lodash.chain(matchingCountries).filter({country: selectionCountry}).pluck('states').value()[0];
+                        var matchingCities = lodash.chain(matchingStates).filter({state: selection}).pluck('cities').value()[0];
+
+                        // Remove selected states's continent also if present
+                        if($scope.currentGeoSelection.continents.indexOf(selectionContinent) > -1) {
+                            $scope.currentGeoSelection.continents.splice( $scope.currentGeoSelection.continents.indexOf(selectionContinent) , 1);
+                        };
+                        // Remove selected states's country also if present
+                        if($scope.currentGeoSelection.countries.indexOf(selectionCountry) > -1) {
+                            $scope.currentGeoSelection.countries.splice( $scope.currentGeoSelection.countries.indexOf(selectionCountry) , 1);
+                        };
+ 
+                        lodash.forEach(matchingCities, function(city) {
+                            // Remove all Cities that belong to this State
+                            if($scope.currentGeoSelection.cities.indexOf(city) > -1) {
+                                $scope.currentGeoSelection.cities.splice( $scope.currentGeoSelection.cities.indexOf(city) , 1);
+                            };
+
+                        });
+                    }
+                };
+                // 
+                if(type === 'city') {
+                    // Check if it is already selected
+                    var pos = $scope.currentGeoSelection.cities.indexOf(selection);
+                    // Toggle if present
+                    if(pos > -1) {
+                        $scope.currentGeoSelection.cities.splice(pos, 1);
+                    } else {
+                        // Add the selected City
+                        $scope.currentGeoSelection.cities.push(selection);
+
+                        // First find which Continent, Country and State the selected state belongs to
+                        var selectionContinent = '';
+                        var selectionCountry = '';
+                        var selectionState = '';
+                        $scope.allLocations.forEach(function(continent) {
+                            continent.countries.forEach(function(country) {
+                                country.states.forEach(function(state) {
+                                    state.cities.forEach(function(city) {
+                                        if(city === selection) {
+                                            selectionContinent = continent.continent;
+                                            selectionCountry = country.country;
+                                            selectionState = state.state;
+                                        };
+                                    });
+                                });
+                            });
+                        });
+ 
+                        var matchingCountries = lodash.chain($scope.allLocations).filter({continent: selectionContinent}).pluck('countries').value()[0]; // pluck returns an array
+                        var matchingStates = lodash.chain(matchingCountries).filter({country: selectionCountry}).pluck('states').value()[0];
+                        var matchingCities = lodash.chain(matchingStates).filter({state: selectionState}).pluck('cities').value()[0];
+
+                        // Remove selected city's continent also if present
+                        if($scope.currentGeoSelection.continents.indexOf(selectionContinent) > -1) {
+                            $scope.currentGeoSelection.continents.splice( $scope.currentGeoSelection.continents.indexOf(selectionContinent) , 1);
+                        };
+                        // Remove selected city's country also if present
+                        if($scope.currentGeoSelection.countries.indexOf(selectionCountry) > -1) {
+                            $scope.currentGeoSelection.countries.splice( $scope.currentGeoSelection.countries.indexOf(selectionCountry) , 1);
+                        };
+                        // Remove selected city's state also if present
+                        if($scope.currentGeoSelection.states.indexOf(selectionState) > -1) {
+                            $scope.currentGeoSelection.states.splice( $scope.currentGeoSelection.states.indexOf(selectionState) , 1);
+                        };
+ 
+                    }
+                };
+ 
+            };
+
+
+/*
             $scope.loadCountries = function(continent) {
                 if(continent == 'Asia') {
                     $scope.geo.countries = [{name: 'India', code: 'IN'}, {name: 'Russia', code: 'RU'}, {name: 'China', code: 'CN'}, {name: 'Malaysia', code: 'MY'}, {name: 'Thailand', code: 'TH'}];
@@ -72,47 +260,7 @@ Settings.directive('settingsLocation', ['PermissionService', function(Authentica
 
                 $scope.changeSelection(state, "state");
             };
-
-            $scope.changeSelection = function(selection, type) {
-                if(type == 'global') {
-                    $scope.currentGeoSelection.global = !$scope.currentGeoSelection.global;
-                };
-                if(type == 'continent') {
-                    // Check if it is already selected
-                    var pos = $scope.currentGeoSelection.continents.indexOf(selection);
-                    // Toggle if present
-                    if(pos > -1) {
-                        $scope.currentGeoSelection.continents.splice(pos, 1);
-                    } else {
-                        $scope.currentGeoSelection.continents.push(selection);
-                    }
-                };
-                // 
-                if(type == 'country') {
-                    // Check if it is already selected
-                    var pos = $scope.currentGeoSelection.countries.indexOf(selection);
-                    // Toggle if present
-                    if(pos > -1) {
-                        $scope.currentGeoSelection.countries.splice(pos, 1);
-                    } else {
-                        $scope.currentGeoSelection.countries.push(selection);
-                    }
-                };
-                // 
-                if(type == 'state') {
-                    // Check if it is already selected
-                    var pos = $scope.currentGeoSelection.states.indexOf(selection);
-                    // Toggle if present
-                    if(pos > -1) {
-                        $scope.currentGeoSelection.states.splice(pos, 1);
-                    } else {
-                        $scope.currentGeoSelection.states.push(selection);
-                    }
-                };
-
-
-
-            };
+*/
 
             /*
             $scope.isCurrentUserLoggedIn = false;

@@ -65,8 +65,9 @@ Authentication.controller('AuthenticationController', ['$scope', '$location', '$
         NotificationService.createNotification( {type: 'success', text: 'Logout Success Message'} );
     };
 
+    // Fetch list of countries to populate register user country select
     $scope.fetchLocations = function() {
-        ApiService.Cities.fetchUniqueLocations({}, function(allLocations) {
+        ApiService.Cities.fetchUniqueCountries({}, function(allLocations) {
             $scope.locationList = allLocations;
         });
        

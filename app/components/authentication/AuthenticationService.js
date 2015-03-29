@@ -1,6 +1,7 @@
 'use strict';
 
 Authentication.service('AuthenticationService', ['$http', 'ApiService', function($http, ApiService) { 
+
     this.currentUserLoggedIn = false;
 	var ANONYMOUS_USER = { firstname: 'Guest User', lastname: '', userroles: [{name: 'Anonymous'}] };
     this.currentUser = ANONYMOUS_USER;

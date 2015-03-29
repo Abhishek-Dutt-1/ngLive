@@ -11,11 +11,30 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Selection:</h4>
                 <span data-ng-show="currentGeoSelection.global">Global</span> ||
-                <span data-ng-repeat="continent in currentGeoSelection.continents">{{continent}}, </span> ||
-                <span data-ng-repeat="country in currentGeoSelection.countries">{{country.name}}, </span> ||
-                <span data-ng-repeat="state in currentGeoSelection.states">{{state.name}}, </span>
+                <span data-ng-repeat="continent in currentGeoSelection.continents | orderBy:'continent'">{{continent}}, </span> ||
+                <span data-ng-repeat="country in currentGeoSelection.countries">{{country}}, </span> ||
+                <span data-ng-repeat="state in currentGeoSelection.states">{{state}}, </span> ||
+                <span data-ng-repeat="city in currentGeoSelection.cities">{{city}}, </span>
             </div>
             <div class="modal-body">
+                <div class="row"><div class="col-md-12">
+                    <ul data-ng-repeat="continents in allLocations | orderBy:'continent' ">
+                        <li data-ng-click="changeSelection(continents.continent, 'continent')">{{continents.continent}}</li>
+                        <ul data-ng-repeat="countries in continents.countries | orderBy:'country'">
+                            <li data-ng-click="changeSelection(countries.country, 'country')">{{countries.country}}</li>
+                            <ul data-ng-repeat="states in countries.states | orderBy:'state'">
+                                <li data-ng-click="changeSelection(states.state, 'state')">{{states.state}}</li>
+                                <ul data-ng-repeat="cities in states.cities | orderBy:'cities'">
+                                    <li data-ng-click="changeSelection(cities, 'city')">{{cities}}</li>
+                                </ul>
+                                <br>
+                            </ul>
+                            <br>
+                        </ul>
+                        <br>
+                    </ul>
+                </div></div>
+
                 <div class="row"><div class="col-md-12">
                     <button class="btn btn-default" data-ng-click="changeSelection('global', 'global');">
                         Global

@@ -15,7 +15,7 @@
                             First Name
                         </div>
                         <div class="col-md-9">
-                            {{userProfile.firstname}}
+                            <div editable-input-widget model='userProfile.firstname' on-ready='updateProfileElement("firstname")' span-class='info' input-class='info-input' input-type=''></div>
                         </div>
                     </div>
                     <div class="row">
@@ -23,7 +23,7 @@
                             Last Name:
                         </div>
                         <div class="col-md-9">
-                            {{userProfile.lastname}}
+                            <div editable-input-widget model='userProfile.lastname' on-ready='updateProfileElement("lastname")' span-class='info' input-class='info-input' input-type=''></div>
                         </div>
                     </div>
                     <div class="row">
@@ -47,7 +47,7 @@
                             Country:
                         </div>
                         <div class="col-md-9">
-                            {{userProfile.country}}
+                            <div editable-select-widget model='userProfile.country' on-ready='updateProfileElement("country")' options-list='options.list' span-class='info' input-class='info-input'></div>
                         </div>
                     </div>
                     <div class="row">
