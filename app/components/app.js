@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * @ngdoc overview
  * @name ngLiveApp
@@ -8,7 +7,7 @@
  *
  * Main module of the application.
  */
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'ngLodash', 'Api', 'Widget', 'Settings', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'User', 'Userrole', 'Permission', 'Cities', 'Userprofile', 'Post', 'Vote']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'ngLodash', 'Api', 'Widget', 'Settings', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'Board', 'User', 'Userrole', 'Permission', 'Cities', 'Userprofile', 'Post', 'Vote']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 
@@ -25,11 +24,22 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
            templateUrl: 'components/post/allPostView.html',
            controller: 'PostController'
        }).
+       // Remove the one above after following 2 are done
+       when('/b/', {
+           // Default route
+           templateUrl: 'components/post/allPostView.html',
+           controller: 'PostController'
+       }).
+       when('/b/:board', {
+           templateUrl: 'components/post/allPostView.html',
+           controller: 'PostController'
+       }).
+       // End board route
        when('/post/:postId', {
            templateUrl: 'components/post/postView.html',
            controller: 'PostController'
        }).
-       when('/profile', {
+        when('/profile', {
            templateUrl: 'components/userprofile/userprofileView.html',
            controller: 'UserprofileController'
        }).
@@ -53,6 +63,10 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
        when('/admin/userrole', {
            templateUrl: 'components/userrole/userroleView.html',
            controller: 'UserroleController'
+       }).
+       when('/admin/board', {
+           templateUrl: 'components/board/board-view.html',
+           controller: 'BoardController'
        }).
        when('/admin/permission', {
            templateUrl: 'components/permission/permissionView.html',

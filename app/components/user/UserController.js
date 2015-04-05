@@ -118,7 +118,7 @@ User.controller('UserController', ['$scope', 'ApiService', function($scope, ApiS
         // Check if the user already has the role
         if( !(user.userroles.some(function(role) { return role.id == userroleid; })) ) {
             // Get the new userrole obj // <-- this is alternate (compared to removeing above) since an 
-            // integer can be passed directly instead of object (with .id prop) and 
+            // String can be passed directly instead of object (with .id prop) and 
             // sails will assume it to be the id
             var newRoleArray = $scope.userroleList.filter(function(role) {return role.id == userroleid; });
             // Add to users existing roles

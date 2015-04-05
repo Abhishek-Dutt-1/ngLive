@@ -1,7 +1,6 @@
 <div class="">
     <div class="header" role="navigation">
         <ul class="nav nav-pills pull-right">
-			<li><div data-settings-location></div></li>
 			<li><a>Welcome: {{currentUser.firstname}}</a></li>
             <li data-ng-class="{active: isActive('/')}"><a data-ng-href="#/">Home</a></li>
 
@@ -16,7 +15,7 @@
             </li>
 
 
-            <li role="presentation" class="dropdown" data-ng-class="{ active: isActive('/admin/user')||isActive('/admin/userrole')||isActive('/admin/permission')||isActive('/admin/cities') }" data-ng-show="showAdminButtons">
+            <li role="presentation" class="dropdown" data-ng-class="{ active: isActive('/admin/user')||isActive('/admin/userrole')||isActive('/admin/permission')||isActive('/admin/cities')||isActive('/admin/board') }" data-ng-show="showAdminButtons">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-expanded="false">
                     Admin <span class="caret"></span>
                 </a>
@@ -25,12 +24,16 @@
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#/admin/userrole">Userrole</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#/admin/permission">Permission</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#/admin/cities">Cities</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/admin/board">Boards</a></li>
                 </ul>
             </li>
 
             <li data-ng-class="{active: isActive('/profile')}" data-ng-show="isCurrentUserLoggedIn"><a data-ng-href="#/profile">Profile</a></li>
             <li data-ng-class="{active: isActive('/login')}" data-ng-show="!isCurrentUserLoggedIn"><a data-ng-href="#/login">Log In | Register</a></li>
             <li data-ng-class="{active: isActive('/logout')}" data-ng-show="isCurrentUserLoggedIn"><a data-ng-href="#/logout">Logout</a></li>
+			<li>
+                <div data-settings-location data-on-save="saveGeoLocation()"></div>
+            </li>
         </ul>
         <h3 class="text-muted" style="width: 40%; padding-top: 5px;">ngLive</h3>
     </div>  <!-- end header -->

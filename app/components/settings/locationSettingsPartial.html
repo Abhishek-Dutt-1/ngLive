@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Launch demo modal
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+    Location {{currentGeoSelection}}
 </button>
 
 <!-- Modal -->
@@ -10,55 +10,49 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Selection:</h4>
-                <span data-ng-show="currentGeoSelection.global">Global</span> ||
-                <span data-ng-repeat="continent in currentGeoSelection.continents | orderBy:'continent'">{{continent}}, </span> ||
-                <span data-ng-repeat="country in currentGeoSelection.countries">{{country}}, </span> ||
-                <span data-ng-repeat="state in currentGeoSelection.states">{{state}}, </span> ||
-                <span data-ng-repeat="city in currentGeoSelection.cities">{{city}}, </span>
+                <span data-ng-repeat="planet in currentGeoSelection.planetSetting | orderBy:'planet'">{{planet}}</span> ||
+                <span data-ng-repeat="continent in currentGeoSelection.continentSetting | orderBy:'continent'">{{continent}}, </span> ||
+                <span data-ng-repeat="country in currentGeoSelection.countrySetting">{{country}}, </span> ||
+                <span data-ng-repeat="state in currentGeoSelection.stateSetting">{{state}}, </span> ||
+                <span data-ng-repeat="city in currentGeoSelection.citySetting">{{city}}, </span>
             </div>
             <div class="modal-body">
-                <div class="row"><div class="col-md-12">
-                    <ul data-ng-repeat="continents in allLocations | orderBy:'continent' ">
-                        <li data-ng-click="changeSelection(continents.continent, 'continent')">{{continents.continent}}</li>
-                        <ul data-ng-repeat="countries in continents.countries | orderBy:'country'">
-                            <li data-ng-click="changeSelection(countries.country, 'country')">{{countries.country}}</li>
-                            <ul data-ng-repeat="states in countries.states | orderBy:'state'">
-                                <li data-ng-click="changeSelection(states.state, 'state')">{{states.state}}</li>
-                                <ul data-ng-repeat="cities in states.cities | orderBy:'cities'">
-                                    <li data-ng-click="changeSelection(cities, 'city')">{{cities}}</li>
-                                </ul>
-                                <br>
-                            </ul>
-                            <br>
-                        </ul>
-                        <br>
-                    </ul>
-                </div></div>
 
                 <div class="row"><div class="col-md-12">
-                    <button class="btn btn-default" data-ng-click="changeSelection('global', 'global');">
-                        Global
-                    </button>
+
+                   <span data-ng-repeat="planets in allLocations | orderBy:'planet' ">
+                        <span data-ng-click="changeSelection(planets.planet, 'planet')">
+                            <button class="btn btn-default" data-ng-class="{'btn-primary': planets.selected}">{{planets.planet}}</button>
+                        </span>
+                       <span data-ng-repeat="continents in planets.continents | orderBy:'continent' ">
+                            <span data-ng-click="changeSelection(continents.continent, 'continent')">
+                                <button class="btn btn-default" data-ng-class="{'btn-primary': continents.selected}">{{continents.continent}}</button>
+                            </span>
+                            <span data-ng-repeat="countries in continents.countries | orderBy:'country'">
+                                <span data-ng-click="changeSelection(countries.country, 'country')">
+                                    <button class="btn btn-default" data-ng-class="{'btn-primary': countries.selected}">{{countries.country}}</button>
+                                </span>
+                                <span data-ng-repeat="states in countries.states | orderBy:'state'">
+                                    <span data-ng-click="changeSelection(states.state, 'state')">
+                                        <button class="btn btn-default" data-ng-class="{'btn-primary': states.selected}">{{states.state}}</button>
+                                    </span>
+                                    <span data-ng-repeat="cities in states.cities | orderBy:'cities'">
+                                        <span data-ng-click="changeSelection(cities.city, 'city')">
+                                            <button class="btn btn-default" data-ng-class="{'btn-primary': cities.selected}">{{cities.city}}</button>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span>
+                            <br>
+                        </span>
+                    </span>
+
                 </div></div>
-                <div class="row"><div class="col-md-12">
-                    <button data-ng-repeat="continent in geo.continents" class="btn btn-default" data-ng-click="loadCountries(continent);">
-                        {{continent}}
-                    </button>
-                </div></div>
-                <div class="row"><div class="col-md-12">
-                     <button data-ng-repeat="country in geo.countries" class="btn btn-default" data-ng-click="loadStates(country)">
-                        {{country.name}}
-                    </button>
-                </div></div>
-                <div class="row"><div class="col-md-12">
-                     <button data-ng-repeat="state in geo.states" class="btn btn-default" data-ng-click="loadCities(state);">
-                        {{state.name}}
-                    </button>
-                </div></div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-ng-click="saveGeoLocationSettings()">Save changes</button>
             </div>
         </div>
     </div>

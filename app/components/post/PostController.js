@@ -8,7 +8,7 @@
  * Controller of the ngLiveApp
  */
 
-Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiService', 'AuthenticationService', 'NotificationService', 'PermissionService', function($scope, $location, $routeParams, ApiService, AuthenticationService, NotificationService, PermissionService) {
+Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiService', 'AuthenticationService', 'NotificationService', 'PermissionService', 'SettingsService', 'lodash', function($scope, $location, $routeParams, ApiService, AuthenticationService, NotificationService, PermissionService, SettingsService, lodash) {
 
 // Config
     $scope.postList = [];
@@ -20,16 +20,18 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
     $scope.commentedonId;       // id of the commented on post
     $scope.replyingTo = { type: undefined, obj: {id: undefined} };     // since same form will be used for replyign to posts and comments, keep track what is being replyied to
     $scope.newComment = {};  // Object for storing newComment form data
+    $scope.locationList = [];
+    $scope.boardList = [];
 
     /* Post CRUD */
-    $scope.fetchAll = function() {
-        /*
-         *  Dont use this form due to flickering !!!
-        $scope.userList = ApiService.User.query(function(){}, 
-            function(err){console.log(err);
-        });
-        */
-        ApiService.Post.listAllPosts(function(allPosts) {
+    $scope.fetchAll = function( opt ) {
+        var query = {}
+        var query = SettingsService.fetchUserGeoLocationSettings();
+        if(opt) {
+            query.boards = opt.boards;
+        };
+        console.log(query);
+        ApiService.Post.listAllPosts(query, function(allPosts) {
 
                 //$scope.postList = allPosts; 
                 $scope.postList = $scope.attachPermissions(allPosts);
@@ -84,12 +86,53 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
 
 // Create a Link post
     $scope.createPostLink = function(newPost) {
+        var boards = [];
+
         $scope.newPostFormProcessing = true;
         if($scope.newPostLinkForm.$valid) {
             newPost.type = "link";
             newPost.postedby = AuthenticationService.getCurrentUser().id;
+            console.log("----");
+            console.log(newPost.postedby);
+        // User MUST always have a country
+        newPost.countrySetting = newPost.countrySetting || AuthenticationService.getCurrentUser().country;
+        if(!angular.isArray(newPost.countrySetting)) newPost.countrySetting = [newPost.countrySetting];
+        // But if he dosent
+        if (newPost.countrySetting[0] === undefined) {
+            // User has not entered any country in the post
+            // User also does not have a country set in his profile
+            // Try setting the post location as users continent if set in user's profile
+            newPost.continentSetting = newPost.continentSetting || AuthenticationService.getCurrentUser().continent;
+            if(!angular.isArray(newPost.continentSetting)) newPost.continentSetting = [newPost.continentSetting];
+            if(newPost.continentSetting[0] === undefined) {
+                // User has no continent set in his profile
+                // Just set the posts Planet (i.e. make it 'global')
+                newPost.planetSetting = newPost.planetSetting || AuthenticationService.getCurrentUser().planet || 'Earth';
+                if(!angular.isArray(newPost.planetSetting)) newPost.planetSetting = [newPost.planetSetting];
+            }
+        } else {
+             SettingsService.getParents(newPost.countrySetting[0], 'country', function(err, parentObj) {
+                if(err) {
+                    console.log(err);
+                    return;
+                };
+                console.log(parentObj);
+                newPost.planetSetting = [parentObj.planet];
+                newPost.continentSetting = [parentObj.continent];
+             });
+        }
+        // Handel boards field
+        if(newPost.boards) {
+            angular.forEach(newPost.boards, function(name, key) {
+                console.log(name + ' :: ' + key);
+                boards.push(name);
+            });
+        }
+        newPost.boards = boards;
+        console.log(newPost);
+
             console.log("Link Form Valid");
-            ApiService.Post.save(newPost, function(msg) {
+            ApiService.Post.savePostWithBoard(newPost, function(msg) {
                 console.log(msg);
                 //$scope.fetchAll();
                 $scope.newPostFormProcessing = false;
@@ -108,12 +151,95 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
 
 // Create a Text post
     $scope.createPostText = function(newPost) {
+        var boards = [];
+        /*
+        if(newPost.boards) {
+            console.log( newPost.boards );
+            angular.forEach(newPost.boards, function(name, key) {
+                console.log(name + ' :: ' + key);
+                boards.push(name);
+            });
+        }
+        newPost.boards = boards;
+        console.log(newPost);
+        */
+        /*
+        // User MUST always have a country
+        newPost.countrySetting = newPost.countrySetting || AuthenticationService.getCurrentUser().country;
+        if(!angular.isArray(newPost.countrySetting)) newPost.countrySetting = [newPost.countrySetting];
+        // But if he dosent
+        if (newPost.countrySetting[0] === undefined) {
+            // User has not entered any country in the post
+            // User also does not have a country set in his profile
+            // Try setting the post location as users continent if set in user's profile
+            newPost.continentSetting = newPost.continentSetting || AuthenticationService.getCurrentUser().continent;
+            if(!angular.isArray(newPost.continentSetting)) newPost.continentSetting = [newPost.continentSetting];
+            if(newPost.continentSetting[0] === undefined) {
+                // User has no continent set in his profile
+                // Just set the posts Planet (i.e. make it 'global')
+                newPost.planetSetting = newPost.planetSetting || AuthenticationService.getCurrentUser().planet || 'Earth';
+                if(!angular.isArray(newPost.planetSetting)) newPost.planetSetting = [newPost.planetSetting];
+            }
+        } else {
+             SettingsService.getParents(newPost.countrySetting[0], 'country', function(err, parentObj) {
+                if(err) {
+                    console.log(err);
+                    return;
+                };
+                console.log(parentObj);
+                newPost.planetSetting = [parentObj.planet];
+                newPost.continentSetting = [parentObj.continent];
+             });
+        }
+        console.log(newPost);
+        return;
+        */
+
         $scope.newPostFormProcessing = true;
         if($scope.newPostTextForm.$valid) {
+
             newPost.type = "text";
             newPost.postedby = AuthenticationService.getCurrentUser().id;
+        // SET LOCATIONS
+        // User MUST always have a country
+        newPost.countrySetting = newPost.countrySetting || AuthenticationService.getCurrentUser().country;
+        if(!angular.isArray(newPost.countrySetting)) newPost.countrySetting = [newPost.countrySetting];
+        // But if he dosent
+        if (newPost.countrySetting[0] === undefined) {
+            // User has not entered any country in the post
+            // User also does not have a country set in his profile
+            // Try setting the post location as users continent if set in user's profile
+            newPost.continentSetting = newPost.continentSetting || AuthenticationService.getCurrentUser().continent;
+            if(!angular.isArray(newPost.continentSetting)) newPost.continentSetting = [newPost.continentSetting];
+            if(newPost.continentSetting[0] === undefined) {
+                // User has no continent set in his profile
+                // Just set the posts Planet (i.e. make it 'global')
+                newPost.planetSetting = newPost.planetSetting || AuthenticationService.getCurrentUser().planet || 'Earth';
+                if(!angular.isArray(newPost.planetSetting)) newPost.planetSetting = [newPost.planetSetting];
+            }
+        } else {
+             SettingsService.getParents(newPost.countrySetting[0], 'country', function(err, parentObj) {
+                if(err) {
+                    console.log(err);
+                    return;
+                };
+                console.log(parentObj);
+                newPost.planetSetting = [parentObj.planet];
+                newPost.continentSetting = [parentObj.continent];
+             });
+        }
+        // Handel boards field
+        if(newPost.boards) {
+            angular.forEach(newPost.boards, function(name, key) {
+                console.log(name + ' :: ' + key);
+                boards.push(name);
+            });
+        }
+        newPost.boards = boards;
+        console.log(newPost);
+
             console.log("Link Form Valid");
-            ApiService.Post.save(newPost, function(msg) {
+            ApiService.Post.savePostWithBoard(newPost, function(msg) {
                 //$scope.fetchAll();
                 $scope.newPostFormProcessing = false;
                 NotificationService.createNotification( {type: 'success', text: msg.title} );
@@ -557,12 +683,62 @@ Post.controller('PostController', ['$scope', '$location', '$routeParams', 'ApiSe
         }
     };
 
+    // Fetch list of countries to populate register user country select
+    $scope.fetchLocations = function() {
+        SettingsService.fetchUniqueCountries(function(err, allCountries) {
+            if(err) console.log(err);
+            $scope.locationList = allCountries;
+        });
+        /*
+        SettingsService.fetchUniqueLocations(function(err, allLocations) {
+            $scope.locationList = lodash.chain(allLocations).pluck('countries').value()[0];
+            console.log(allLocations);
+            console.log($scope.locationList);
+        });
+        */
+        /*
+            ApiService.Cities.fetchUniqueCountries({}, function(allLocations) {
+                $scope.locationList = allLocations;
+            });
+        */
+    };
+
+    // Fetch list of boards to populate boards list select
+    $scope.fetchBoards = function() {
+        SettingsService.fetchUniqueBoards( function(err, allBoards) {
+            if(err) console.log(err);
+            $scope.boardList = allBoards;
+            console.log(allBoards);
+        });
+    };
+
+   
+
+
 // Run
     // Get all users
     //$scope.fetchAll();
     if($routeParams.postId) {
         $scope.fetchOne($routeParams.postId);
     } else {
+        //$scope.fetchAll();
+    }
+
+    // Fetch list of all Countries and Cities
+    $scope.fetchLocations();
+    $scope.fetchBoards();
+
+    // Check if the board has been given in url
+    var board;
+    if($routeParams.board) {
+        // Url has a board name
+        console.log($routeParams.board);
+        board = $routeParams.board;
+        $scope.fetchAll( { boards: {name: board} } );
+    } else {
+        // Url does not has a board
+        // i.e. /b/
+        // fetch all
         $scope.fetchAll();
     }
 

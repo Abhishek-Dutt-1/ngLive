@@ -36,6 +36,10 @@
                                 <div><a href="" data-ng-click="loadClickedPost(post.id)">Discuss</a></div>
                                 <div>{{post.postedby.email}}</div>
                                 <div>{{post.createdAt}}</div>
+                                <span>{{post.planetSetting}}</span>
+                                <span>{{post.continentSetting}}</span>
+                                <span>{{post.countrySetting}}</span>
+                                <span data-ng-repeat="board in post.boards"><a ng-href="#/b/{{board.name}}">{{board.name}}</a> </span>
                                 <div data-ng-show="post.showDelete"><a href="" ng-click="deletePost(post.id)">Delete</a></div>
                                 <div data-ng-show="post.showEdit"><a href="" ng-click="deletePost(post.id)">Edit</a></div>
                             </div>
@@ -73,6 +77,12 @@
                             <div>{{clickedPost.description}}</div>
                             <div>{{clickedPost.postedby.email}}</div>
                             <div>{{clickedPost.createdAt}}</div>
+                            <div>{{clickedPost.postedby.email}}</div>
+                            <div>{{clickedPost.createdAt}}</div>
+                            <span>{{clickedPost.planetSetting}}</span>
+                            <span>{{clickedPost.continentSetting}}</span>
+                            <span>{{clickedPost.countrySetting}}</span>
+                            <span data-ng-repeat="board in clickedPost.boards"><a ng-href="#/b/{{board.name}}">{{board.name}}</a> </span>
                             <span data-ng-show="clickedPost.showDelete"><a href="" ng-click="deletePost(clickedPost.id)">Delete</a></span>
                             <span data-ng-show="clickedPost.showEdit"><a href="" ng-click="deletePost(clickedPost.id)">Edit</a></span>
                             <span data-ng-show="clickedPost.showReply"><a href="" data-ng-click="displayCommentForm(clickedPost, 'post')">Reply</a></span>

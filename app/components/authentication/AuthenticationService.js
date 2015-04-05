@@ -46,6 +46,28 @@ Authentication.service('AuthenticationService', ['$http', 'ApiService', function
 		return this.currentUser;
     };
 
+    // Update User on the server and also local cache
+    this.updateCurrentUser = function(updateData, cb) {
+        var _this = this;
+        ApiService.User.update( { userId: this.getCurrentUser().id }, updateData).$promise.then(function(savedUser) {
+            _this.logInUser(savedUser);
+            cb(false, savedUser);
+        }, function(err) {
+            cb(err);
+        });
+
+        /*
+        // Save user's setting in his model
+        ApiService.User.update( { userId: this.getCurrentUser().id }, updateData, function(savedUser) {
+            cb(savedUser);
+        }, function(err) {
+            //console.log(err);
+            cb(err);
+        });
+        */
+
+    };
+
     // Until user returned by login does not contains userroles
     // user this temp solution to attach them later
     // -- Nevermind
