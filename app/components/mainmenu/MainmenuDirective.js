@@ -27,9 +27,15 @@ Mainmenu.directive('mainmenuPartial', ['AuthenticationService', 'PermissionServi
 
             // UI ELEMENTS
 			// Highlights current button in the menu based on current path
-			$scope.isActive = function(route) {
-                return route === $location.path();
+			$scope.isAdminRoute = function() {
+                if($location.path()) {
+                    // check if path is of the form /admin/xxx
+                    return $location.path().split('/')[1] === 'admin';
+                } else {
+                    return false;
+                }
             };
+    
         },
     };
 }]);

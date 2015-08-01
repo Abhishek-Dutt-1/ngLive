@@ -7,7 +7,7 @@
  *
  * Main module of the application.
  */
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'ngLodash', 'Api', 'Widget', 'Settings', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'Board', 'User', 'Userrole', 'Permission', 'Cities', 'Userprofile', 'Post', 'Vote']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'ngLodash', 'Api', 'Widget', 'Settings', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'Board', 'User', 'Userrole', 'Permission', 'Cities', 'Userprofile', 'Post', 'Vote', 'Images']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 
@@ -75,6 +75,10 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
        when('/admin/cities', {
            templateUrl: 'components/cities/citiesView.html',
            controller: 'CitiesController'
+       }).
+       when('/admin/images', {
+           templateUrl: 'components/images/imagesView.html',
+           controller: 'ImagesController'
        }).
        otherwise({
            redirectTo: '/'
