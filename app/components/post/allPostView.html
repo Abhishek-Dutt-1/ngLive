@@ -35,7 +35,10 @@
                                 <div><h5>{{post.description}}</h5></div>
                                 <div><a href="" data-ng-click="loadClickedPost(post.id)">Discuss</a></div>
                                 <div>{{post.postedby.email}}</div>
+                                <!--
                                 <div>{{post.createdAt}}</div>
+                                -->
+                                <time am-time-ago="post.createdAt" title="{{ post.createdAt | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time> 
                                 <span>{{post.planetSetting}}</span>
                                 <span>{{post.continentSetting}}</span>
                                 <span>{{post.countrySetting}}</span>
@@ -76,7 +79,10 @@
 
                             <div>{{clickedPost.description}}</div>
                             <div>{{clickedPost.postedby.email}}</div>
-                            <div>{{clickedPost.createdAt}}</div>
+                            <!--
+                            <div>{{clickedPost.createdAt | amCalendar}}</div>
+                            -->
+                            <time am-time-ago="clickedPost.createdAt" title="{{ clickedPost.createdAt | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time> 
                             <span>{{clickedPost.planetSetting}}</span>
                             <span>{{clickedPost.continentSetting}}</span>
                             <span>{{clickedPost.countrySetting}}</span>
@@ -107,7 +113,12 @@
                             <tr class="warning1">
                                 <td>{{comment.body}}</td>
                                 <td>{{comment.postedby.email}}</td>
+                                <!--
                                 <td>{{comment.createdAt}}</td>
+                                -->
+                                <td>
+                                    <time am-time-ago="comment.createdAt" title="{{ comment.createdAt | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time> 
+                                </td>
                                 <td>
                                     <span data-ng-show="comment.showDelete"><a href="" data-ng-click="deleteComment(comment.id)">Delete</a></span>
                                     <span data-ng-show="comment.showReply"><a href="" data-ng-click="displayCommentForm(comment, 'comment')">Reply</a></span>
@@ -116,7 +127,12 @@
                             <tr class="warning1" style="color: grey;" data-ng-repeat="childComment in comment.childComments">
                                 <td><span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="color: lightgrey;"></span>&nbsp;{{childComment.body}}</td>
                                 <td>{{childComment.postedby.email}}</td>
+                                <!--
                                 <td>{{childComment.createdAt}}</td>
+                                -->
+                                <td>
+                                    <time am-time-ago="childComment.createdAt" title="{{ childComment.createdAt | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time> 
+                                </td>
                                 <td>
                                     <span data-ng-show="childComment.showDelete"><a href="" ng-click="deleteComment(childComment.id)">Delete</a></span>
                                 </td>

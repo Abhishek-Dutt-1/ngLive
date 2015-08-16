@@ -45,7 +45,8 @@ Board.controller('BoardController', ['$scope', 'ApiService', function($scope, Ap
 
     $scope.createBoard = function(board) {
         if(board) {
-            ApiService.Board.save(board, function() {
+//            ApiService.Board.save(board, function() {
+            ApiService.Board.createNewBoard(board, function() {
                 $scope.fetchAll();
             }, function(err) {
                 console.log(err);

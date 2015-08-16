@@ -21,7 +21,8 @@ Api.service('ApiService', ['$resource', function($resource) {
     });
 
     this.Board = $resource(serverAddress+'/board/:boardId', null, {
-        'update': {method: 'POST'}
+        'update': { method: 'POST' },
+        'createNewBoard': { method: 'POST', url: serverAddress+'/board/createnewboard/' }
     });
 
     this.Userrole = $resource(serverAddress+'/userrole/:userroleId', null, {

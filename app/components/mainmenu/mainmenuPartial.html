@@ -6,11 +6,13 @@
 
             <li role="presentation" class="dropdown" data-ng-class="{active: isActive('/post/new')||isActive('/post/all')}" data-ng-show="canCreatePost">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-expanded="false">
-                    Post <span class="caret"></span>
+                    Do <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/post/new">New</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/post/all">All</a></li>
+                    <li role="presentation" data-ng-show="isCurrentUserLoggedIn"><a role="menuitem" data-ng-href="#/profile">Profile</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/post/new">Post: New</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/post/all">Post: All</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/profile/myboards">Your Boards</a></li>
                 </ul>
             </li>
 
@@ -27,8 +29,9 @@
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#/admin/images">Images</a></li>
                 </ul>
             </li>
-
+            <!--
             <li data-ng-class="{active: isActive('/profile')}" data-ng-show="isCurrentUserLoggedIn"><a data-ng-href="#/profile">Profile</a></li>
+            -->
             <li data-ng-class="{active: isActive('/login')}" data-ng-show="!isCurrentUserLoggedIn"><a data-ng-href="#/login">Log In | Register</a></li>
             <li data-ng-class="{active: isActive('/logout')}" data-ng-show="isCurrentUserLoggedIn"><a data-ng-href="#/logout">Logout</a></li>
 			<li>

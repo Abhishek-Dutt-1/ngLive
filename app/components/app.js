@@ -7,7 +7,26 @@
  *
  * Main module of the application.
  */
-var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 'ngResource', 'ngLodash', 'Api', 'Widget', 'Settings', 'Notification', 'Frontpage', 'Mainmenu', 'Authentication', 'Board', 'User', 'Userrole', 'Permission', 'Cities', 'Userprofile', 'Post', 'Vote', 'Images']);
+var ngLiveApp = angular.module('ngLiveApp', ['ngRoute', 
+                                'ngResource', 
+                                'ngLodash', 
+                                'angularMoment',
+                                'Api', 
+                                'Widget', 
+                                'Settings', 
+                                'Notification', 
+                                'Frontpage', 
+                                'Mainmenu', 
+                                'Authentication', 
+                                'Board', 
+                                'User', 
+                                'Userrole', 
+                                'Permission', 
+                                'Cities', 
+                                'Userprofile', 
+                                'Post', 
+                                'Vote', 
+                                'Images']);
 
 ngLiveApp.config(['$routeProvider', function($routeProvider) {
 
@@ -39,8 +58,12 @@ ngLiveApp.config(['$routeProvider', function($routeProvider) {
            templateUrl: 'components/post/postView.html',
            controller: 'PostController'
        }).
-        when('/profile', {
-           templateUrl: 'components/userprofile/userprofileView.html',
+       when('/profile', {
+           templateUrl: 'components/userprofile/userprofile-view.html',
+           controller: 'UserprofileController'
+       }).
+       when('/profile/myboards', {
+           templateUrl: 'components/userprofile/boards-view.html',
            controller: 'UserprofileController'
        }).
        when('/login', {

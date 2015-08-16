@@ -6,9 +6,12 @@
             <h3>Fetch All/Fetch One</h3>
             <div class="row" data-ng-repeat="board in boardList">
                 <div class="col-md-2">{{board.id}}</div>
-                <div class="col-md-2">{{board.name}}</div>
+                <div class="col-md-1">{{board.name}}</div>
+                <div class="col-md-1">{{board.description}}</div>
+                <div class="col-md-2">{{board.createdby.email}}</div>
+                <div class="col-md-2">{{board.owner.email}}</div>
                 <div class="col-md-2">{{board.createdAt}}</div>
-                <div class="col-md-2">{{board.updatedAt}}</div>
+                <div class="col-md-2">{{board.updatedat}}</div>
                 <div class="col-md-1"><a href="" data-ng-click="deleteBoard(board.id)">x</a></div>
             </div>
         </div>
@@ -26,6 +29,15 @@
                         <input type="text" id="name" class="form-control" data-ng-model="newBoard.name">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label for="description">Description</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <input type="text" id="description" class="form-control" data-ng-model="newBoard.description">
+                    </div>
+                </div>
+ 
                 <div class="row">
                     <div class="col-xs-12">
                         <button type="submit" class="btn btn-default" data-ng-click="createBoard(newBoard)">Create</button>
